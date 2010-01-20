@@ -85,132 +85,1300 @@
 		quid       	"4B559F6C029F"
 		stereotype 	"Actor")
 	    (object UseCase "查看用户信息"
-		quid       	"4B559F7D0177")
+		quid       	"4B559F7D0177"
+		statemachine 	(object State_Machine "State/Activity Model5"
+		    quid       	"4B56B0CE001F"
+		    states     	(list States
+			(object State "$UNNAMED$0"
+			    quid       	"4B56B0E501A5"
+			    type       	"StartState")
+			(object ActivityState "用户进入查看用户信息页面"
+			    quid       	"4B56B0E703B9")
+			(object ActivityState "服务器显示现有用户列表与它们各自的权限"
+			    quid       	"4B56B167036B")
+			(object ActivityState "选择系统中的某一用户"
+			    quid       	"4B56B18A0290")
+			(object ActivityState "$UNNAMED$1"
+			    quid       	"4B56B1A502AF")
+			(object State "$UNNAMED$2"
+			    quid       	"4B56B1DC0177"
+			    type       	"EndState"))
+		    partitions 	(list Partitions
+			(object Partition "用户"
+			    quid       	"4B56B0D50119"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE)
+			(object Partition "服务器"
+			    quid       	"4B56B15A01F4"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE))
+		    objects    	(list Objects)
+		    transitions 	(list transition_list
+			(object State_Transition
+			    quid       	"4B56B157006D"
+			    supplier   	"Use Case View::查看用户信息::State/Activity Model5::用户进入查看用户信息页面"
+			    supplier_quidu 	"4B56B0E703B9"
+			    client     	"$UNNAMED$0"
+			    client_quidu 	"4B56B0E501A5"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56B1570070"))
+			(object State_Transition
+			    quid       	"4B56B17A038A"
+			    supplier   	"Use Case View::查看用户信息::State/Activity Model5::服务器显示现有用户列表与它们各自的权限"
+			    supplier_quidu 	"4B56B167036B"
+			    client     	"Use Case View::查看用户信息::State/Activity Model5::用户进入查看用户信息页面"
+			    client_quidu 	"4B56B0E703B9"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56B17A038D"))
+			(object State_Transition
+			    quid       	"4B56B1D3035B"
+			    supplier   	"Use Case View::查看用户信息::State/Activity Model5::选择系统中的某一用户"
+			    supplier_quidu 	"4B56B18A0290"
+			    client     	"Use Case View::查看用户信息::State/Activity Model5::服务器显示现有用户列表与它们各自的权限"
+			    client_quidu 	"4B56B167036B"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56B1D3035E"))
+			(object State_Transition
+			    quid       	"4B56B1DF01E4"
+			    supplier   	"$UNNAMED$2"
+			    supplier_quidu 	"4B56B1DC0177"
+			    client     	"Use Case View::查看用户信息::State/Activity Model5::服务器显示现有用户列表与它们各自的权限"
+			    client_quidu 	"4B56B167036B"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56B1DF01E7")))
+		    objectflows 	(list objectflow_list)
+		    statediagrams 	(list StateDiagrams
+			(object ActivityDiagram "过程流"
+			    quid       	"4B56B0CE002F"
+			    title      	"过程流"
+			    zoom       	100
+			    max_height 	28350
+			    max_width  	21600
+			    origin_x   	0
+			    origin_y   	0
+			    items      	(list diagram_item_list
+				(object Swimlane "用户" @1
+				    line_color 	3342489
+				    quidu      	"4B56B0D50119"
+				    width      	622)
+				(object StateView "StartState" "$UNNAMED$0" @2
+				    Parent_View 	@1
+				    location   	(265, 92)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56B0E501A5"
+				    autoResize 	TRUE)
+				(object ActivityStateView "用户进入查看用户信息页面" @3
+				    Parent_View 	@1
+				    location   	(267, 317)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@3
+					location   	(267, 320)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	308
+					justify    	0
+					label      	"用户进入查看用户信息页面")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56B0E703B9"
+				    width      	414
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @4
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56B157006D"
+				    client     	@2
+				    supplier   	@3
+				    vertices   	(list Points
+					(265, 121)
+					(266, 264))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object Swimlane "服务器" @5
+				    location   	(622, 0)
+				    line_color 	3342489
+				    quidu      	"4B56B15A01F4"
+				    width      	752)
+				(object ActivityStateView "服务器显示现有用户列表与它们各自的权限" @6
+				    Parent_View 	@5
+				    location   	(1010, 316)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@6
+					location   	(1010, 319)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	502
+					justify    	0
+					label      	"服务器显示现有用户列表与它们各自的权限")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56B167036B"
+				    width      	608
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @7
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56B17A038A"
+				    client     	@3
+				    supplier   	@6
+				    vertices   	(list Points
+					(453, 316)
+					(750, 316))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object StateView "EndState" "$UNNAMED$2" @8
+				    Parent_View 	@5
+				    location   	(1011, 650)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56B1DC0177"
+				    autoResize 	TRUE)
+				(object Swimlane "" @9
+				    location   	(1374, 0)
+				    line_color 	3342489
+				    width      	450)
+				(object TransView "" @10
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56B1DF01E4"
+				    client     	@6
+				    supplier   	@8
+				    vertices   	(list Points
+					(1010, 369)
+					(1010, 608))
+				    line_style 	0
+				    x_offset   	FALSE))))))
 	    (object UseCase "查看配置信息"
-		quid       	"4B559F8C0167")
+		quid       	"4B559F8C0167"
+		statemachine 	(object State_Machine "State/Activity Model3"
+		    quid       	"4B56A92F030D"
+		    states     	(list States
+			(object State "$UNNAMED$3"
+			    quid       	"4B56A94B009C"
+			    type       	"StartState")
+			(object ActivityState "用户进入配置信息页面"
+			    quid       	"4B56A94D02BF")
+			(object ActivityState "服务器返回给用户现有的规则库，每个规则库的权值"
+			    quid       	"4B56A983004E")
+			(object ActivityState "用户选择某一规则库"
+			    quid       	"4B56A9AE02AF")
+			(object ActivityState "服务器返回给用户该规则库中的规则"
+			    quid       	"4B56A9BC0261")
+			(object State "$UNNAMED$4"
+			    quid       	"4B56A9CF037A"
+			    type       	"EndState"))
+		    partitions 	(list Partitions
+			(object Partition "用户"
+			    quid       	"4B56A93B0109"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE)
+			(object Partition "服务器"
+			    quid       	"4B56A9410213"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE)
+			(object Partition "服务器 "
+			    quid       	"4B56A97D0177"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE))
+		    objects    	(list Objects)
+		    transitions 	(list transition_list
+			(object State_Transition
+			    quid       	"4B56A95F0251"
+			    supplier   	"Use Case View::查看配置信息::State/Activity Model3::用户进入配置信息页面"
+			    supplier_quidu 	"4B56A94D02BF"
+			    client     	"$UNNAMED$3"
+			    client_quidu 	"4B56A94B009C"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56A95F0254"))
+			(object State_Transition
+			    quid       	"4B56A9A70196"
+			    supplier   	"Use Case View::查看配置信息::State/Activity Model3::服务器返回给用户现有的规则库，每个规则库的权值"
+			    supplier_quidu 	"4B56A983004E"
+			    client     	"Use Case View::查看配置信息::State/Activity Model3::用户进入配置信息页面"
+			    client_quidu 	"4B56A94D02BF"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56A9A70199"))
+			(object State_Transition
+			    quid       	"4B56A9B9037A"
+			    supplier   	"Use Case View::查看配置信息::State/Activity Model3::用户选择某一规则库"
+			    supplier_quidu 	"4B56A9AE02AF"
+			    client     	"Use Case View::查看配置信息::State/Activity Model3::服务器返回给用户现有的规则库，每个规则库的权值"
+			    client_quidu 	"4B56A983004E"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56A9B9037D"))
+			(object State_Transition
+			    quid       	"4B56A9D10196"
+			    supplier   	"Use Case View::查看配置信息::State/Activity Model3::服务器返回给用户该规则库中的规则"
+			    supplier_quidu 	"4B56A9BC0261"
+			    client     	"Use Case View::查看配置信息::State/Activity Model3::用户选择某一规则库"
+			    client_quidu 	"4B56A9AE02AF"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56A9D10199"))
+			(object State_Transition
+			    quid       	"4B56A9D3008C"
+			    supplier   	"$UNNAMED$4"
+			    supplier_quidu 	"4B56A9CF037A"
+			    client     	"Use Case View::查看配置信息::State/Activity Model3::服务器返回给用户该规则库中的规则"
+			    client_quidu 	"4B56A9BC0261"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56A9D3008F")))
+		    objectflows 	(list objectflow_list)
+		    statediagrams 	(list StateDiagrams
+			(object ActivityDiagram "过程流"
+			    quid       	"4B56A92F031D"
+			    title      	"过程流"
+			    zoom       	100
+			    max_height 	28350
+			    max_width  	21600
+			    origin_x   	0
+			    origin_y   	103
+			    items      	(list diagram_item_list
+				(object Swimlane "用户" @11
+				    line_color 	3342489
+				    quidu      	"4B56A93B0109"
+				    width      	712)
+				(object StateView "StartState" "$UNNAMED$3" @12
+				    Parent_View 	@11
+				    location   	(404, 95)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56A94B009C"
+				    autoResize 	TRUE)
+				(object ActivityStateView "用户进入配置信息页面" @13
+				    Parent_View 	@11
+				    location   	(403, 331)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@13
+					location   	(403, 334)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	300
+					justify    	0
+					label      	"用户进入配置信息页面")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56A94D02BF"
+				    width      	406
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @14
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56A95F0251"
+				    client     	@12
+				    supplier   	@13
+				    vertices   	(list Points
+					(403, 124)
+					(403, 277))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object ActivityStateView "用户选择某一规则库" @15
+				    Parent_View 	@11
+				    location   	(390, 765)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@15
+					location   	(390, 768)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	269
+					justify    	0
+					label      	"用户选择某一规则库")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56A9AE02AF"
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object Swimlane "服务器 " @16
+				    location   	(712, 0)
+				    line_color 	3342489
+				    quidu      	"4B56A97D0177"
+				    width      	836)
+				(object ActivityStateView "服务器返回给用户现有的规则库，每个规则库的权值" @17
+				    Parent_View 	@16
+				    location   	(1130, 515)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@17
+					location   	(1130, 518)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	610
+					justify    	0
+					label      	"服务器返回给用户现有的规则库，每个规则库的权值")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56A983004E"
+				    width      	716
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @18
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56A9A70196"
+				    client     	@13
+				    supplier   	@17
+				    vertices   	(list Points
+					(565, 372)
+					(920, 462))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object TransView "" @19
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56A9B9037A"
+				    client     	@17
+				    supplier   	@15
+				    vertices   	(list Points
+					(973, 567)
+					(533, 716))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object ActivityStateView "服务器返回给用户该规则库中的规则" @20
+				    Parent_View 	@16
+				    location   	(1150, 925)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@20
+					location   	(1150, 928)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	432
+					justify    	0
+					label      	"服务器返回给用户该规则库中的规则")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56A9BC0261"
+				    width      	538
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object StateView "EndState" "$UNNAMED$4" @21
+				    Parent_View 	@16
+				    location   	(1151, 1251)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56A9CF037A"
+				    autoResize 	TRUE)
+				(object Swimlane "" @22
+				    location   	(1548, 0)
+				    line_color 	3342489
+				    width      	450)
+				(object TransView "" @23
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56A9D10196"
+				    client     	@15
+				    supplier   	@20
+				    vertices   	(list Points
+					(547, 798)
+					(941, 881))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object TransView "" @24
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56A9D3008C"
+				    client     	@20
+				    supplier   	@21
+				    vertices   	(list Points
+					(1150, 978)
+					(1150, 1209))
+				    line_style 	0
+				    x_offset   	FALSE))))))
 	    (object UseCase "修改系统配置"
 		quid       	"4B559F970280")
 	    (object UseCase "查看系统日志"
 		quid       	"4B559F9D005D")
 	    (object UseCase "查看攻击日志"
-		quid       	"4B559FA80167")
+		quid       	"4B559FA80167"
+		statemachine 	(object State_Machine "State/Activity Model4"
+		    quid       	"4B56AF4002FD"
+		    states     	(list States
+			(object State "$UNNAMED$5"
+			    quid       	"4B56AF70038A"
+			    type       	"StartState")
+			(object ActivityState "用户进入统计页面"
+			    quid       	"4B56AF7203C8")
+			(object ActivityState "$UNNAMED$6"
+			    quid       	"4B56AF87007D")
+			(object ActivityState "选择日期段"
+			    quid       	"4B56AF9003D8")
+			(object ActivityState "服务器返回该时间段内出现的异常行为与处理结果"
+			    quid       	"4B56AFA4035B")
+			(object State "$UNNAMED$7"
+			    quid       	"4B56AFC6031C"
+			    type       	"EndState"))
+		    partitions 	(list Partitions
+			(object Partition "用户"
+			    quid       	"4B56AF4B036B"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE)
+			(object Partition "NewSwimlane"
+			    quid       	"4B56AF57008C"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE)
+			(object Partition "服务器"
+			    quid       	"4B56AF9F005D"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE))
+		    objects    	(list Objects)
+		    transitions 	(list transition_list
+			(object State_Transition
+			    quid       	"4B56AF8C01F4"
+			    supplier   	"Use Case View::查看攻击日志::State/Activity Model4::用户进入统计页面"
+			    supplier_quidu 	"4B56AF7203C8"
+			    client     	"$UNNAMED$5"
+			    client_quidu 	"4B56AF70038A"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56AF8C01F7"))
+			(object State_Transition
+			    quid       	"4B56AF990186"
+			    supplier   	"Use Case View::查看攻击日志::State/Activity Model4::选择日期段"
+			    supplier_quidu 	"4B56AF9003D8"
+			    client     	"Use Case View::查看攻击日志::State/Activity Model4::用户进入统计页面"
+			    client_quidu 	"4B56AF7203C8"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56AF990189"))
+			(object State_Transition
+			    quid       	"4B56AFC100FA"
+			    supplier   	"Use Case View::查看攻击日志::State/Activity Model4::服务器返回该时间段内出现的异常行为与处理结果"
+			    supplier_quidu 	"4B56AFA4035B"
+			    client     	"Use Case View::查看攻击日志::State/Activity Model4::选择日期段"
+			    client_quidu 	"4B56AF9003D8"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56AFC100FD"))
+			(object State_Transition
+			    quid       	"4B56AFC80232"
+			    supplier   	"$UNNAMED$7"
+			    supplier_quidu 	"4B56AFC6031C"
+			    client     	"Use Case View::查看攻击日志::State/Activity Model4::服务器返回该时间段内出现的异常行为与处理结果"
+			    client_quidu 	"4B56AFA4035B"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56AFC80235")))
+		    objectflows 	(list objectflow_list)
+		    statediagrams 	(list StateDiagrams
+			(object ActivityDiagram "过程流"
+			    quid       	"4B56AF40030E"
+			    title      	"过程流"
+			    zoom       	100
+			    max_height 	28350
+			    max_width  	21600
+			    origin_x   	0
+			    origin_y   	369
+			    items      	(list diagram_item_list
+				(object Swimlane "用户" @25
+				    line_color 	3342489
+				    quidu      	"4B56AF4B036B"
+				    width      	532)
+				(object StateView "StartState" "$UNNAMED$5" @26
+				    Parent_View 	@25
+				    location   	(269, 95)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56AF70038A"
+				    autoResize 	TRUE)
+				(object ActivityStateView "用户进入统计页面" @27
+				    Parent_View 	@25
+				    location   	(268, 328)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@27
+					location   	(268, 331)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	269
+					justify    	0
+					label      	"用户进入统计页面")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56AF7203C8"
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @28
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56AF8C01F4"
+				    client     	@26
+				    supplier   	@27
+				    vertices   	(list Points
+					(268, 124)
+					(268, 274))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object ActivityStateView "选择日期段" @29
+				    Parent_View 	@25
+				    location   	(268, 543)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@29
+					location   	(268, 546)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	269
+					justify    	0
+					label      	"选择日期段")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56AF9003D8"
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @30
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56AF990186"
+				    client     	@27
+				    supplier   	@29
+				    vertices   	(list Points
+					(268, 381)
+					(268, 490))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object Swimlane "服务器" @31
+				    location   	(532, 0)
+				    line_color 	3342489
+				    quidu      	"4B56AF9F005D"
+				    width      	802)
+				(object ActivityStateView "服务器返回该时间段内出现的异常行为与处理结果" @32
+				    Parent_View 	@31
+				    location   	(932, 541)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@32
+					location   	(932, 544)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	574
+					justify    	0
+					label      	"服务器返回该时间段内出现的异常行为与处理结果")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56AFA4035B"
+				    width      	680
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @33
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56AFC100FA"
+				    client     	@29
+				    supplier   	@32
+				    vertices   	(list Points
+					(439, 542)
+					(645, 541))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object StateView "EndState" "$UNNAMED$7" @34
+				    Parent_View 	@31
+				    location   	(930, 814)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56AFC6031C"
+				    autoResize 	TRUE)
+				(object Swimlane "" @35
+				    location   	(1334, 0)
+				    line_color 	3342489
+				    width      	450)
+				(object TransView "" @36
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56AFC80232"
+				    client     	@32
+				    supplier   	@34
+				    vertices   	(list Points
+					(931, 594)
+					(930, 772))
+				    line_style 	0
+				    x_offset   	FALSE))))))
 	    (object UseCase "添加/修改用户"
-		quid       	"4B56A0D50222")
-	    (object Association "$UNNAMED$0"
+		quid       	"4B56A0D50222"
+		statemachine 	(object State_Machine "State/Activity Model6"
+		    quid       	"4B56B4900196"
+		    states     	(list States
+			(object State "$UNNAMED$8"
+			    quid       	"4B56B6D302EE"
+			    type       	"StartState")
+			(object ActivityState "管理员进入用户列表页面"
+			    quid       	"4B56B6D501E4")
+			(object ActivityState "服务器返回管理员现有用户列表与他们的权限"
+			    quid       	"4B56B6F00119")
+			(object ActivityState "管理员选择某一个用户"
+			    quid       	"4B56C1E6005D")
+			(object Decision "$UNNAMED$9"
+			    quid       	"4B56C22E032C")
+			(object ActivityState "添加一个用户"
+			    quid       	"4B56C24B0196")
+			(object ActivityState "修改某一用户"
+			    quid       	"4B56C25E0138")
+			(object ActivityState "保存修改信息"
+			    quid       	"4B56C289001F")
+			(object State "$UNNAMED$10"
+			    quid       	"4B56C29E0000"
+			    type       	"EndState"))
+		    partitions 	(list Partitions
+			(object Partition "用户"
+			    quid       	"4B56B49502DE"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE)
+			(object Partition "服务器"
+			    quid       	"4B56B704035B"
+			    persistence 	"Transient"
+			    creationObj 	FALSE
+			    multi      	FALSE))
+		    objects    	(list Objects)
+		    transitions 	(list transition_list
+			(object State_Transition
+			    quid       	"4B56C0630119"
+			    supplier   	"Use Case View::添加/修改用户::State/Activity Model6::管理员进入用户列表页面"
+			    supplier_quidu 	"4B56B6D501E4"
+			    client     	"$UNNAMED$8"
+			    client_quidu 	"4B56B6D302EE"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C063011C"))
+			(object State_Transition
+			    quid       	"4B56C1E1033C"
+			    supplier   	"Use Case View::添加/修改用户::State/Activity Model6::服务器返回管理员现有用户列表与他们的权限"
+			    supplier_quidu 	"4B56B6F00119"
+			    client     	"Use Case View::添加/修改用户::State/Activity Model6::管理员进入用户列表页面"
+			    client_quidu 	"4B56B6D501E4"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C1E1033F"))
+			(object State_Transition
+			    quid       	"4B56C22C0222"
+			    supplier   	"Use Case View::添加/修改用户::State/Activity Model6::管理员选择某一个用户"
+			    supplier_quidu 	"4B56C1E6005D"
+			    client     	"Use Case View::添加/修改用户::State/Activity Model6::服务器返回管理员现有用户列表与他们的权限"
+			    client_quidu 	"4B56B6F00119"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C22C0225"))
+			(object State_Transition
+			    quid       	"4B56C231003E"
+			    supplier   	"$UNNAMED$9"
+			    supplier_quidu 	"4B56C22E032C"
+			    client     	"Use Case View::添加/修改用户::State/Activity Model6::管理员选择某一个用户"
+			    client_quidu 	"4B56C1E6005D"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C2310041"))
+			(object State_Transition
+			    quid       	"4B56C2390109"
+			    supplier   	"$UNNAMED$9"
+			    supplier_quidu 	"4B56C22E032C"
+			    client     	"Use Case View::添加/修改用户::State/Activity Model6::服务器返回管理员现有用户列表与他们的权限"
+			    client_quidu 	"4B56B6F00119"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C239010C"))
+			(object State_Transition
+			    quid       	"4B56C2530119"
+			    label      	""
+			    supplier   	"Use Case View::添加/修改用户::State/Activity Model6::添加一个用户"
+			    supplier_quidu 	"4B56C24B0196"
+			    client     	"$UNNAMED$9"
+			    client_quidu 	"4B56C22E032C"
+			    Event      	(object Event "管理员选择添加用户"
+				quid       	"4B56C253011A")
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C253011C"))
+			(object State_Transition
+			    quid       	"4B56C26C00FA"
+			    label      	""
+			    supplier   	"Use Case View::添加/修改用户::State/Activity Model6::修改某一用户"
+			    supplier_quidu 	"4B56C25E0138"
+			    client     	"$UNNAMED$9"
+			    client_quidu 	"4B56C22E032C"
+			    Event      	(object Event "管理员选择修改用户"
+				quid       	"4B56C26C00FB")
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C26C00FD"))
+			(object State_Transition
+			    quid       	"4B56C2980148"
+			    supplier   	"Use Case View::添加/修改用户::State/Activity Model6::保存修改信息"
+			    supplier_quidu 	"4B56C289001F"
+			    client     	"Use Case View::添加/修改用户::State/Activity Model6::添加一个用户"
+			    client_quidu 	"4B56C24B0196"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C298014B"))
+			(object State_Transition
+			    quid       	"4B56C29A038A"
+			    supplier   	"Use Case View::添加/修改用户::State/Activity Model6::保存修改信息"
+			    supplier_quidu 	"4B56C289001F"
+			    client     	"Use Case View::添加/修改用户::State/Activity Model6::修改某一用户"
+			    client_quidu 	"4B56C25E0138"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C29A038D"))
+			(object State_Transition
+			    quid       	"4B56C2A000FA"
+			    supplier   	"$UNNAMED$10"
+			    supplier_quidu 	"4B56C29E0000"
+			    client     	"Use Case View::添加/修改用户::State/Activity Model6::保存修改信息"
+			    client_quidu 	"4B56C289001F"
+			    sendEvent  	(object sendEvent
+				quid       	"4B56C2A000FD")))
+		    objectflows 	(list objectflow_list)
+		    statediagrams 	(list StateDiagrams
+			(object ActivityDiagram "过程流"
+			    quid       	"4B56B49001A6"
+			    title      	"过程流"
+			    zoom       	100
+			    max_height 	28350
+			    max_width  	21600
+			    origin_x   	0
+			    origin_y   	0
+			    items      	(list diagram_item_list
+				(object Swimlane "用户" @37
+				    line_color 	3342489
+				    quidu      	"4B56B49502DE"
+				    width      	1100)
+				(object StateView "StartState" "$UNNAMED$8" @38
+				    Parent_View 	@37
+				    location   	(547, 70)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56B6D302EE"
+				    autoResize 	TRUE)
+				(object ActivityStateView "管理员进入用户列表页面" @39
+				    Parent_View 	@37
+				    location   	(546, 335)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@39
+					location   	(546, 338)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	320
+					justify    	0
+					label      	"管理员进入用户列表页面")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56B6D501E4"
+				    width      	426
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @40
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C0630119"
+				    client     	@38
+				    supplier   	@39
+				    vertices   	(list Points
+					(546, 100)
+					(546, 281))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object DecisionView "$UNNAMED$9" @41
+				    Parent_View 	@37
+				    location   	(534, 669)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56C22E032C"
+				    autoResize 	TRUE)
+				(object ActivityStateView "添加一个用户" @42
+				    Parent_View 	@37
+				    location   	(268, 875)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@42
+					location   	(268, 878)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	269
+					justify    	0
+					label      	"添加一个用户")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56C24B0196"
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @43
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object SegLabel @44
+					Parent_View 	@43
+					location   	(289, 714)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					anchor_loc 	1
+					nlines     	1
+					max_width  	450
+					justify    	0
+					label      	"管理员选择添加用户"
+					pctDist    	0.500000
+					height     	45
+					orientation 	0)
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C2530119"
+				    client     	@41
+				    supplier   	@42
+				    vertices   	(list Points
+					(459, 669)
+					(269, 669)
+					(268, 821))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object ActivityStateView "修改某一用户" @45
+				    Parent_View 	@37
+				    location   	(821, 881)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@45
+					location   	(821, 884)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	269
+					justify    	0
+					label      	"修改某一用户")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56C25E0138"
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @46
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object SegLabel @47
+					Parent_View 	@46
+					location   	(793, 625)
+					font       	(object Font
+					    size       	10
+					    face       	"Arial"
+					    bold       	FALSE
+					    italics    	FALSE
+					    underline  	FALSE
+					    strike     	FALSE
+					    color      	0
+					    default_color 	TRUE)
+					anchor_loc 	1
+					nlines     	1
+					max_width  	450
+					justify    	0
+					label      	"管理员选择修改用户"
+					pctDist    	0.500000
+					height     	45
+					orientation 	0)
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C26C00FA"
+				    client     	@41
+				    supplier   	@45
+				    vertices   	(list Points
+					(609, 669)
+					(819, 669)
+					(820, 828))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object Swimlane "服务器" @48
+				    location   	(1100, 0)
+				    line_color 	3342489
+				    quidu      	"4B56B704035B"
+				    width      	800)
+				(object ActivityStateView "服务器返回管理员现有用户列表与他们的权限" @49
+				    Parent_View 	@48
+				    location   	(1520, 334)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@49
+					location   	(1520, 337)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	534
+					justify    	0
+					label      	"服务器返回管理员现有用户列表与他们的权限")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56B6F00119"
+				    width      	640
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @50
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C1E1033C"
+				    client     	@39
+				    supplier   	@49
+				    vertices   	(list Points
+					(736, 334)
+					(1248, 334))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object TransView "" @51
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C2390109"
+				    client     	@49
+				    supplier   	@41
+				    vertices   	(list Points
+					(1265, 370)
+					(534, 475)
+					(534, 632))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object ActivityStateView "保存修改信息" @52
+				    Parent_View 	@48
+				    location   	(1459, 1160)
+				    font       	(object Font
+					size       	10
+					face       	"Arial"
+					bold       	FALSE
+					italics    	FALSE
+					underline  	FALSE
+					strike     	FALSE
+					color      	0
+					default_color 	TRUE)
+				    label      	(object ItemLabel
+					Parent_View 	@52
+					location   	(1459, 1163)
+					fill_color 	13434879
+					anchor_loc 	1
+					nlines     	2
+					max_width  	326
+					justify    	0
+					label      	"保存修改信息")
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    fill_color 	13434879
+				    quidu      	"4B56C289001F"
+				    width      	432
+				    height     	106
+				    annotation 	1
+				    autoResize 	TRUE)
+				(object TransView "" @53
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C2980148"
+				    client     	@42
+				    supplier   	@52
+				    vertices   	(list Points
+					(421, 911)
+					(1286, 1118))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object TransView "" @54
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C29A038A"
+				    client     	@45
+				    supplier   	@52
+				    vertices   	(list Points
+					(942, 934)
+					(1337, 1106))
+				    line_style 	0
+				    x_offset   	FALSE)
+				(object StateView "EndState" "$UNNAMED$10" @55
+				    Parent_View 	@48
+				    location   	(1461, 1349)
+				    icon_style 	"Icon"
+				    line_color 	3342489
+				    quidu      	"4B56C29E0000"
+				    autoResize 	TRUE)
+				(object Swimlane "" @56
+				    location   	(1900, 0)
+				    line_color 	3342489
+				    width      	450)
+				(object TransView "" @57
+				    stereotype 	TRUE
+				    line_color 	3342489
+				    quidu      	"4B56C2A000FA"
+				    client     	@52
+				    supplier   	@55
+				    vertices   	(list Points
+					(1459, 1212)
+					(1460, 1306))
+				    line_style 	0
+				    x_offset   	FALSE))))))
+	    (object Association "$UNNAMED$11"
 		quid       	"4B55A013038A"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$1"
+		    (object Role "$UNNAMED$12"
 			quid       	"4B55A0150138"
 			supplier   	"Use Case View::查看系统日志"
 			quidu      	"4B559F9D005D"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$2"
+		    (object Role "$UNNAMED$13"
 			quid       	"4B55A0150148"
 			supplier   	"Use Case View::监视级用户"
 			quidu      	"4B559F30032C")))
-	    (object Association "$UNNAMED$3"
+	    (object Association "$UNNAMED$14"
 		quid       	"4B55A01F0213"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$4"
+		    (object Role "$UNNAMED$15"
 			quid       	"4B55A02000DA"
 			supplier   	"Use Case View::查看配置信息"
 			quidu      	"4B559F8C0167"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$5"
+		    (object Role "$UNNAMED$16"
 			quid       	"4B55A02000DC"
 			supplier   	"Use Case View::监视级用户"
 			quidu      	"4B559F30032C")))
-	    (object Association "$UNNAMED$6"
+	    (object Association "$UNNAMED$17"
 		quid       	"4B55A02500EA"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$7"
+		    (object Role "$UNNAMED$18"
 			quid       	"4B55A025031C"
 			supplier   	"Use Case View::查看用户信息"
 			quidu      	"4B559F7D0177"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$8"
+		    (object Role "$UNNAMED$19"
 			quid       	"4B55A025031E"
 			supplier   	"Use Case View::管理级用户"
 			quidu      	"4B559F6C029F")))
-	    (object Association "$UNNAMED$9"
+	    (object Association "$UNNAMED$20"
 		quid       	"4B55A02701E4"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$10"
+		    (object Role "$UNNAMED$21"
 			quid       	"4B55A028001F"
 			supplier   	"Use Case View::查看系统日志"
 			quidu      	"4B559F9D005D"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$11"
+		    (object Role "$UNNAMED$22"
 			quid       	"4B55A0280021"
 			supplier   	"Use Case View::管理级用户"
 			quidu      	"4B559F6C029F")))
-	    (object Association "$UNNAMED$12"
+	    (object Association "$UNNAMED$23"
 		quid       	"4B55A029029F"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$13"
+		    (object Role "$UNNAMED$24"
 			quid       	"4B55A02A006D"
 			supplier   	"Use Case View::修改系统配置"
 			quidu      	"4B559F970280"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$14"
+		    (object Role "$UNNAMED$25"
 			quid       	"4B55A02A006F"
 			supplier   	"Use Case View::管理级用户"
 			quidu      	"4B559F6C029F")))
-	    (object Association "$UNNAMED$15"
+	    (object Association "$UNNAMED$26"
 		quid       	"4B55A02B029F"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$16"
+		    (object Role "$UNNAMED$27"
 			quid       	"4B55A02C005D"
 			supplier   	"Use Case View::查看攻击日志"
 			quidu      	"4B559FA80167"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$17"
+		    (object Role "$UNNAMED$28"
 			quid       	"4B55A02C005F"
 			supplier   	"Use Case View::管理级用户"
 			quidu      	"4B559F6C029F")))
-	    (object Association "$UNNAMED$18"
+	    (object Association "$UNNAMED$29"
 		quid       	"4B55A0300138"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$19"
+		    (object Role "$UNNAMED$30"
 			quid       	"4B55A0310157"
 			supplier   	"Use Case View::查看攻击日志"
 			quidu      	"4B559FA80167"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$20"
+		    (object Role "$UNNAMED$31"
 			quid       	"4B55A0310159"
 			supplier   	"Use Case View::监视级用户"
 			quidu      	"4B559F30032C")))
-	    (object Association "$UNNAMED$21"
+	    (object Association "$UNNAMED$32"
 		quid       	"4B56A0EC00DA"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$22"
+		    (object Role "$UNNAMED$33"
 			quid       	"4B56A0ED00AB"
 			supplier   	"Use Case View::添加/修改用户"
 			quidu      	"4B56A0D50222"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$23"
+		    (object Role "$UNNAMED$34"
 			quid       	"4B56A0ED00BC"
 			supplier   	"Use Case View::管理级用户"
 			quidu      	"4B559F6C029F")))
-	    (object Association "$UNNAMED$24"
+	    (object Association "$UNNAMED$35"
 		quid       	"4B56A4FE033C"
 		roles      	(list role_list
-		    (object Role "$UNNAMED$25"
+		    (object Role "$UNNAMED$36"
 			quid       	"4B56A4FF0157"
 			supplier   	"Use Case View::查看配置信息"
 			quidu      	"4B559F8C0167"
 			is_navigable 	TRUE)
-		    (object Role "$UNNAMED$26"
+		    (object Role "$UNNAMED$37"
 			quid       	"4B56A4FF0159"
 			supplier   	"Use Case View::管理级用户"
 			quidu      	"4B559F6C029F"))))
 	statemachine 	(object State_Machine "State/Activity Model"
 	    quid       	"4B55A0770261"
 	    states     	(list States
-		(object State "$UNNAMED$27"
+		(object State "$UNNAMED$38"
 		    quid       	"4B55A083008C"
 		    type       	"StartState")
-		(object State "$UNNAMED$28"
+		(object State "$UNNAMED$39"
 		    quid       	"4B55A09402FD"
 		    type       	"Normal")
 		(object ActivityState "监听所在网络中的数据包"
@@ -220,7 +1388,7 @@
 		    statemachine 	(object State_Machine "State/Activity Model2"
 			quid       	"4B55AFB402AF"
 			states     	(list States
-			    (object State "$UNNAMED$29"
+			    (object State "$UNNAMED$40"
 				quid       	"4B55AFB402BF"
 				type       	"StartState"))
 			partitions 	(list Partitions)
@@ -230,13 +1398,13 @@
 			statediagrams 	(list StateDiagrams)))
 		(object ActivityState "多引擎模式匹配"
 		    quid       	"4B55A18300AB")
-		(object SynchronizationState "$UNNAMED$30"
+		(object SynchronizationState "$UNNAMED$41"
 		    quid       	"4B55A1CA002E")
 		(object ActivityState "NewActivity"
 		    quid       	"4B55A1DA001F")
 		(object ActivityState "NewActivity2"
 		    quid       	"4B55A1DC02FD")
-		(object Decision "$UNNAMED$31"
+		(object Decision "$UNNAMED$42"
 		    quid       	"4B55A202031C")
 		(object ActivityState "根据每个引擎的提议，计算出最后结果"
 		    quid       	"4B55A21E0271")
@@ -254,7 +1422,7 @@
 		    quid       	"4B55AFFF0177")
 		(object ActivityState "引擎n进行匹配"
 		    quid       	"4B55B0150109")
-		(object State "$UNNAMED$32"
+		(object State "$UNNAMED$43"
 		    quid       	"4B55B0990157"
 		    type       	"EndState"))
 	    partitions 	(list Partitions)
@@ -264,7 +1432,7 @@
 		    quid       	"4B55A1000261"
 		    supplier   	"Use Case View::State/Activity Model::将监控机的网卡设置为混杂模式"
 		    supplier_quidu 	"4B55A0B20213"
-		    client     	"$UNNAMED$27"
+		    client     	"$UNNAMED$38"
 		    client_quidu 	"4B55A083008C"
 		    sendEvent  	(object sendEvent
 			quid       	"4B55A1000264"))
@@ -280,7 +1448,7 @@
 		    quid       	"4B55A1E1001F"
 		    supplier   	"Use Case View::State/Activity Model::NewActivity"
 		    supplier_quidu 	"4B55A1DA001F"
-		    client     	"$UNNAMED$30"
+		    client     	"$UNNAMED$41"
 		    client_quidu 	"4B55A1CA002E"
 		    sendEvent  	(object sendEvent
 			quid       	"4B55A1E10022"))
@@ -288,7 +1456,7 @@
 		    quid       	"4B55A1E3000F"
 		    supplier   	"Use Case View::State/Activity Model::NewActivity2"
 		    supplier_quidu 	"4B55A1DC02FD"
-		    client     	"$UNNAMED$30"
+		    client     	"$UNNAMED$41"
 		    client_quidu 	"4B55A1CA002E"
 		    sendEvent  	(object sendEvent
 			quid       	"4B55A1E30012"))
@@ -310,7 +1478,7 @@
 			quid       	"4B55A22E0041"))
 		(object State_Transition
 		    quid       	"4B55A28F032C"
-		    supplier   	"$UNNAMED$31"
+		    supplier   	"$UNNAMED$42"
 		    supplier_quidu 	"4B55A202031C"
 		    client     	"Use Case View::State/Activity Model::根据每个引擎的提议，计算出最后结果"
 		    client_quidu 	"4B55A21E0271"
@@ -321,7 +1489,7 @@
 		    label      	""
 		    supplier   	"Use Case View::State/Activity Model::执行相应动作"
 		    supplier_quidu 	"4B55A28D036B"
-		    client     	"$UNNAMED$31"
+		    client     	"$UNNAMED$42"
 		    client_quidu 	"4B55A202031C"
 		    Event      	(object Event "匹配"
 			quid       	"4B55A2B70197")
@@ -332,7 +1500,7 @@
 		    label      	""
 		    supplier   	"Use Case View::State/Activity Model::正常行为"
 		    supplier_quidu 	"4B55A2A30167"
-		    client     	"$UNNAMED$31"
+		    client     	"$UNNAMED$42"
 		    client_quidu 	"4B55A202031C"
 		    Event      	(object Event "无特征匹配"
 			quid       	"4B55A2BE033D")
@@ -358,7 +1526,7 @@
 		    quid       	"4B55AFD4034B"
 		    supplier   	"Use Case View::State/Activity Model::捕获进入的数据包"
 		    supplier_quidu 	"4B55AFC2032C"
-		    client     	"$UNNAMED$27"
+		    client     	"$UNNAMED$38"
 		    client_quidu 	"4B55A083008C"
 		    sendEvent  	(object sendEvent
 			quid       	"4B55AFD4034E"))
@@ -420,7 +1588,7 @@
 			quid       	"4B55B07B0022"))
 		(object State_Transition
 		    quid       	"4B55B09A03C8"
-		    supplier   	"$UNNAMED$32"
+		    supplier   	"$UNNAMED$43"
 		    supplier_quidu 	"4B55B0990157"
 		    client     	"Use Case View::State/Activity Model::正常行为"
 		    client_quidu 	"4B55A2A30167"
@@ -428,7 +1596,7 @@
 			quid       	"4B55B09A03CB"))
 		(object State_Transition
 		    quid       	"4B55B09D002E"
-		    supplier   	"$UNNAMED$32"
+		    supplier   	"$UNNAMED$43"
 		    supplier_quidu 	"4B55B0990157"
 		    client     	"Use Case View::State/Activity Model::执行相应动作"
 		    client_quidu 	"4B55A28D036B"
@@ -445,19 +1613,19 @@
 		    origin_x   	0
 		    origin_y   	362
 		    items      	(list diagram_item_list
-			(object Swimlane "" @1
+			(object Swimlane "" @58
 			    line_color 	3342489
 			    width      	450)
-			(object DecisionView "$UNNAMED$31" @2
-			    Parent_View 	@1
+			(object DecisionView "$UNNAMED$42" @59
+			    Parent_View 	@58
 			    location   	(984, 1542)
 			    icon_style 	"Icon"
 			    line_color 	3342489
 			    fill_color 	13434879
 			    quidu      	"4B55A202031C"
 			    autoResize 	TRUE)
-			(object ActivityStateView "根据每个引擎的提议，计算出最后结果" @3
-			    Parent_View 	@1
+			(object ActivityStateView "根据每个引擎的提议，计算出最后结果" @60
+			    Parent_View 	@58
 			    location   	(983, 1294)
 			    font       	(object Font
 				size       	10
@@ -469,7 +1637,7 @@
 				color      	0
 				default_color 	TRUE)
 			    label      	(object ItemLabel
-				Parent_View 	@3
+				Parent_View 	@60
 				location   	(983, 1297)
 				fill_color 	13434879
 				anchor_loc 	1
@@ -485,19 +1653,19 @@
 			    height     	106
 			    annotation 	1
 			    autoResize 	TRUE)
-			(object TransView "" @4
+			(object TransView "" @61
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55A28F032C"
-			    client     	@3
-			    supplier   	@2
+			    client     	@60
+			    supplier   	@59
 			    vertices   	(list Points
 				(983, 1347)
 				(984, 1505))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object ActivityStateView "执行相应动作" @5
-			    Parent_View 	@1
+			(object ActivityStateView "执行相应动作" @62
+			    Parent_View 	@58
 			    location   	(1281, 1762)
 			    font       	(object Font
 				size       	10
@@ -509,7 +1677,7 @@
 				color      	0
 				default_color 	TRUE)
 			    label      	(object ItemLabel
-				Parent_View 	@5
+				Parent_View 	@62
 				location   	(1281, 1765)
 				fill_color 	13434879
 				anchor_loc 	1
@@ -524,7 +1692,7 @@
 			    height     	106
 			    annotation 	1
 			    autoResize 	TRUE)
-			(object TransView "" @6
+			(object TransView "" @63
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -534,8 +1702,8 @@
 				strike     	FALSE
 				color      	0
 				default_color 	TRUE)
-			    label      	(object SegLabel @7
-				Parent_View 	@6
+			    label      	(object SegLabel @64
+				Parent_View 	@63
 				location   	(1175, 1594)
 				font       	(object Font
 				    size       	10
@@ -557,15 +1725,15 @@
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55A2B70196"
-			    client     	@2
-			    supplier   	@5
+			    client     	@59
+			    supplier   	@62
 			    vertices   	(list Points
 				(1059, 1542)
 				(1227, 1708))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object ActivityStateView "正常行为" @8
-			    Parent_View 	@1
+			(object ActivityStateView "正常行为" @65
+			    Parent_View 	@58
 			    location   	(703, 1757)
 			    font       	(object Font
 				size       	10
@@ -577,7 +1745,7 @@
 				color      	0
 				default_color 	TRUE)
 			    label      	(object ItemLabel
-				Parent_View 	@8
+				Parent_View 	@65
 				location   	(703, 1760)
 				fill_color 	13434879
 				anchor_loc 	1
@@ -592,7 +1760,7 @@
 			    height     	106
 			    annotation 	1
 			    autoResize 	TRUE)
-			(object TransView "" @9
+			(object TransView "" @66
 			    font       	(object Font
 				size       	10
 				face       	"Arial"
@@ -602,8 +1770,8 @@
 				strike     	FALSE
 				color      	0
 				default_color 	TRUE)
-			    label      	(object SegLabel @10
-				Parent_View 	@9
+			    label      	(object SegLabel @67
+				Parent_View 	@66
 				location   	(750, 1576)
 				font       	(object Font
 				    size       	10
@@ -625,15 +1793,15 @@
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55A2BE033C"
-			    client     	@2
-			    supplier   	@8
+			    client     	@59
+			    supplier   	@65
 			    vertices   	(list Points
 				(909, 1542)
 				(753, 1704))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object StateView "StartState" "$UNNAMED$27" @11
-			    Parent_View 	@1
+			(object StateView "StartState" "$UNNAMED$38" @68
+			    Parent_View 	@58
 			    location   	(981, 267)
 			    font       	(object Font
 				size       	10
@@ -644,8 +1812,8 @@
 				strike     	FALSE
 				color      	0
 				default_color 	TRUE)
-			    label      	(object SegLabel @12
-				Parent_View 	@11
+			    label      	(object SegLabel @69
+				Parent_View 	@68
 				location   	(1023, 237)
 				font       	(object Font
 				    size       	10
@@ -668,8 +1836,8 @@
 			    line_color 	3342489
 			    quidu      	"4B55A083008C"
 			    autoResize 	TRUE)
-			(object ActivityStateView "捕获进入的数据包" @13
-			    Parent_View 	@1
+			(object ActivityStateView "捕获进入的数据包" @70
+			    Parent_View 	@58
 			    location   	(981, 456)
 			    font       	(object Font
 				size       	10
@@ -681,7 +1849,7 @@
 				color      	0
 				default_color 	TRUE)
 			    label      	(object ItemLabel
-				Parent_View 	@13
+				Parent_View 	@70
 				location   	(981, 459)
 				fill_color 	13434879
 				anchor_loc 	1
@@ -696,19 +1864,19 @@
 			    height     	106
 			    annotation 	1
 			    autoResize 	TRUE)
-			(object TransView "" @14
+			(object TransView "" @71
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55AFD4034B"
-			    client     	@11
-			    supplier   	@13
+			    client     	@68
+			    supplier   	@70
 			    vertices   	(list Points
 				(981, 297)
 				(981, 403))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object ActivityStateView "引擎1进行匹配" @15
-			    Parent_View 	@1
+			(object ActivityStateView "引擎1进行匹配" @72
+			    Parent_View 	@58
 			    location   	(596, 847)
 			    font       	(object Font
 				size       	10
@@ -720,7 +1888,7 @@
 				color      	0
 				default_color 	TRUE)
 			    label      	(object ItemLabel
-				Parent_View 	@15
+				Parent_View 	@72
 				location   	(596, 850)
 				fill_color 	13434879
 				anchor_loc 	1
@@ -735,19 +1903,19 @@
 			    height     	106
 			    annotation 	1
 			    autoResize 	TRUE)
-			(object TransView "" @16
+			(object TransView "" @73
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55B077005D"
-			    client     	@15
-			    supplier   	@3
+			    client     	@72
+			    supplier   	@60
 			    vertices   	(list Points
 				(641, 900)
 				(937, 1241))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object ActivityStateView "引擎2进行匹配" @17
-			    Parent_View 	@1
+			(object ActivityStateView "引擎2进行匹配" @74
+			    Parent_View 	@58
 			    location   	(981, 841)
 			    font       	(object Font
 				size       	10
@@ -759,7 +1927,7 @@
 				color      	0
 				default_color 	TRUE)
 			    label      	(object ItemLabel
-				Parent_View 	@17
+				Parent_View 	@74
 				location   	(981, 844)
 				fill_color 	13434879
 				anchor_loc 	1
@@ -774,19 +1942,19 @@
 			    height     	106
 			    annotation 	1
 			    autoResize 	TRUE)
-			(object TransView "" @18
+			(object TransView "" @75
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55B079003E"
-			    client     	@17
-			    supplier   	@3
+			    client     	@74
+			    supplier   	@60
 			    vertices   	(list Points
 				(981, 894)
 				(982, 1240))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object ActivityStateView "引擎n进行匹配" @19
-			    Parent_View 	@1
+			(object ActivityStateView "引擎n进行匹配" @76
+			    Parent_View 	@58
 			    location   	(1390, 841)
 			    font       	(object Font
 				size       	10
@@ -798,7 +1966,7 @@
 				color      	0
 				default_color 	TRUE)
 			    label      	(object ItemLabel
-				Parent_View 	@19
+				Parent_View 	@76
 				location   	(1390, 844)
 				fill_color 	13434879
 				anchor_loc 	1
@@ -813,25 +1981,25 @@
 			    height     	106
 			    annotation 	1
 			    autoResize 	TRUE)
-			(object TransView "" @20
+			(object TransView "" @77
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55B07B001F"
-			    client     	@19
-			    supplier   	@3
+			    client     	@76
+			    supplier   	@60
 			    vertices   	(list Points
 				(1342, 894)
 				(1030, 1240))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object StateView "EndState" "$UNNAMED$32" @21
-			    Parent_View 	@1
+			(object StateView "EndState" "$UNNAMED$43" @78
+			    Parent_View 	@58
 			    location   	(986, 1986)
 			    icon_style 	"Icon"
 			    line_color 	3342489
 			    quidu      	"4B55B0990157"
 			    autoResize 	TRUE)
-			(object SynchronizationView "多引擎模式匹配1" @22
+			(object SynchronizationView "多引擎模式匹配1" @79
 			    location   	(981, 597)
 			    font       	(object Font
 				size       	10
@@ -842,8 +2010,8 @@
 				strike     	FALSE
 				color      	0
 				default_color 	TRUE)
-			    label      	(object SegLabel @23
-				Parent_View 	@22
+			    label      	(object SegLabel @80
+				Parent_View 	@79
 				location   	(1143, 526)
 				font       	(object Font
 				    size       	10
@@ -867,67 +2035,67 @@
 			    autoResize 	TRUE
 			    sync_flow_direction 	1
 			    sync_is_horizontal 	TRUE)
-			(object TransView "" @24
+			(object TransView "" @81
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55AFD602DE"
-			    client     	@13
-			    supplier   	@22
+			    client     	@70
+			    supplier   	@79
 			    vertices   	(list Points
 				(981, 509)
 				(981, 587))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object TransView "" @25
+			(object TransView "" @82
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55AFFB0222"
-			    client     	@22
-			    supplier   	@15
+			    client     	@79
+			    supplier   	@72
 			    vertices   	(list Points
 				(965, 606)
 				(677, 794))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object TransView "" @26
+			(object TransView "" @83
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55B0130280"
-			    client     	@22
-			    supplier   	@17
+			    client     	@79
+			    supplier   	@74
 			    vertices   	(list Points
 				(981, 606)
 				(981, 788))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object TransView "" @27
+			(object TransView "" @84
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55B02602CE"
-			    client     	@22
-			    supplier   	@19
+			    client     	@79
+			    supplier   	@76
 			    vertices   	(list Points
 				(996, 606)
 				(1302, 788))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object TransView "" @28
+			(object TransView "" @85
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55B09A03C8"
-			    client     	@8
-			    supplier   	@21
+			    client     	@65
+			    supplier   	@78
 			    vertices   	(list Points
 				(768, 1810)
 				(944, 1952))
 			    line_style 	0
 			    x_offset   	FALSE)
-			(object TransView "" @29
+			(object TransView "" @86
 			    stereotype 	TRUE
 			    line_color 	3342489
 			    quidu      	"4B55B09D002E"
-			    client     	@5
-			    supplier   	@21
+			    client     	@62
+			    supplier   	@78
 			    vertices   	(list Points
 				(1211, 1814)
 				(1028, 1954))
@@ -943,7 +2111,7 @@
 		origin_x   	0
 		origin_y   	0
 		items      	(list diagram_item_list
-		    (object ClassView "Class" "Use Case View::监视级用户" @30
+		    (object ClassView "Class" "Use Case View::监视级用户" @87
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -958,7 +2126,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@30
+			    Parent_View 	@87
 			    location   	(495, 457)
 			    anchor_loc 	1
 			    nlines     	2
@@ -971,7 +2139,7 @@
 			quidu      	"4B559F30032C"
 			annotation 	8
 			autoResize 	TRUE)
-		    (object UseCaseView "Use Case View::查看用户信息" @31
+		    (object UseCaseView "Use Case View::查看用户信息" @88
 			location   	(1287, 109)
 			font       	(object Font
 			    size       	10
@@ -983,7 +2151,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@31
+			    Parent_View 	@88
 			    location   	(1287, 247)
 			    anchor_loc 	1
 			    nlines     	2
@@ -995,7 +2163,7 @@
 			fill_color 	13434879
 			quidu      	"4B559F7D0177"
 			height     	118)
-		    (object UseCaseView "Use Case View::查看系统日志" @32
+		    (object UseCaseView "Use Case View::查看系统日志" @89
 			location   	(1287, 337)
 			font       	(object Font
 			    size       	10
@@ -1007,7 +2175,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@32
+			    Parent_View 	@89
 			    location   	(1287, 475)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1019,7 +2187,7 @@
 			fill_color 	13434879
 			quidu      	"4B559F9D005D"
 			height     	118)
-		    (object UseCaseView "Use Case View::修改系统配置" @33
+		    (object UseCaseView "Use Case View::修改系统配置" @90
 			location   	(1265, 1009)
 			font       	(object Font
 			    size       	10
@@ -1031,7 +2199,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@33
+			    Parent_View 	@90
 			    location   	(1265, 1147)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1043,7 +2211,7 @@
 			fill_color 	13434879
 			quidu      	"4B559F970280"
 			height     	118)
-		    (object UseCaseView "Use Case View::查看攻击日志" @34
+		    (object UseCaseView "Use Case View::查看攻击日志" @91
 			location   	(1284, 809)
 			font       	(object Font
 			    size       	10
@@ -1055,7 +2223,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@34
+			    Parent_View 	@91
 			    location   	(1284, 947)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1067,7 +2235,7 @@
 			fill_color 	13434879
 			quidu      	"4B559FA80167"
 			height     	118)
-		    (object AssociationViewNew "$UNNAMED$18" @35
+		    (object AssociationViewNew "$UNNAMED$29" @92
 			location   	(873, 542)
 			font       	(object Font
 			    size       	10
@@ -1082,31 +2250,31 @@
 			line_color 	3342489
 			quidu      	"4B55A0300138"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$19" @36
-				Parent_View 	@35
+			    (object RoleView "$UNNAMED$30" @93
+				Parent_View 	@92
 				location   	(393, 202)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A0310157"
-				client     	@35
-				supplier   	@34
+				client     	@92
+				supplier   	@91
 				vertices   	(list Points
 				    (873, 542)
 				    (1194, 751))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$20" @37
-				Parent_View 	@35
+			    (object RoleView "$UNNAMED$31" @94
+				Parent_View 	@92
 				location   	(393, 202)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A0310159"
-				client     	@35
-				supplier   	@30
+				client     	@92
+				supplier   	@87
 				vertices   	(list Points
 				    (873, 542)
 				    (552, 333))
 				line_style 	0)))
-		    (object UseCaseView "Use Case View::添加/修改用户" @38
+		    (object UseCaseView "Use Case View::添加/修改用户" @95
 			location   	(1262, 1212)
 			font       	(object Font
 			    size       	10
@@ -1118,7 +2286,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@38
+			    Parent_View 	@95
 			    location   	(1262, 1350)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1130,7 +2298,7 @@
 			fill_color 	13434879
 			quidu      	"4B56A0D50222"
 			height     	118)
-		    (object ClassView "Class" "Use Case View::管理级用户" @39
+		    (object ClassView "Class" "Use Case View::管理级用户" @96
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -1145,7 +2313,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@39
+			    Parent_View 	@96
 			    location   	(483, 875)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1158,7 +2326,7 @@
 			quidu      	"4B559F6C029F"
 			annotation 	8
 			autoResize 	TRUE)
-		    (object AssociationViewNew "$UNNAMED$6" @40
+		    (object AssociationViewNew "$UNNAMED$17" @97
 			location   	(845, 439)
 			font       	(object Font
 			    size       	10
@@ -1173,31 +2341,31 @@
 			line_color 	3342489
 			quidu      	"4B55A02500EA"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$7" @41
-				Parent_View 	@40
+			    (object RoleView "$UNNAMED$18" @98
+				Parent_View 	@97
 				location   	(362, -276)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A025031C"
-				client     	@40
-				supplier   	@31
+				client     	@97
+				supplier   	@88
 				vertices   	(list Points
 				    (845, 439)
 				    (1150, 211))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$8" @42
-				Parent_View 	@40
+			    (object RoleView "$UNNAMED$19" @99
+				Parent_View 	@97
 				location   	(362, -276)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A025031E"
-				client     	@40
-				supplier   	@39
+				client     	@97
+				supplier   	@96
 				vertices   	(list Points
 				    (845, 439)
 				    (540, 668))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$9" @43
+		    (object AssociationViewNew "$UNNAMED$20" @100
 			location   	(845, 543)
 			font       	(object Font
 			    size       	10
@@ -1212,31 +2380,31 @@
 			line_color 	3342489
 			quidu      	"4B55A02701E4"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$10" @44
-				Parent_View 	@43
+			    (object RoleView "$UNNAMED$21" @101
+				Parent_View 	@100
 				location   	(362, -172)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A028001F"
-				client     	@43
-				supplier   	@32
+				client     	@100
+				supplier   	@89
 				vertices   	(list Points
 				    (845, 543)
 				    (1150, 400))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$11" @45
-				Parent_View 	@43
+			    (object RoleView "$UNNAMED$22" @102
+				Parent_View 	@100
 				location   	(362, -172)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A0280021"
-				client     	@43
-				supplier   	@39
+				client     	@100
+				supplier   	@96
 				vertices   	(list Points
 				    (845, 543)
 				    (540, 686))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$12" @46
+		    (object AssociationViewNew "$UNNAMED$23" @103
 			location   	(847, 850)
 			font       	(object Font
 			    size       	10
@@ -1251,31 +2419,31 @@
 			line_color 	3342489
 			quidu      	"4B55A029029F"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$13" @47
-				Parent_View 	@46
+			    (object RoleView "$UNNAMED$24" @104
+				Parent_View 	@103
 				location   	(364, 135)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02A006D"
-				client     	@46
-				supplier   	@33
+				client     	@103
+				supplier   	@90
 				vertices   	(list Points
 				    (847, 850)
 				    (1154, 965))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$14" @48
-				Parent_View 	@46
+			    (object RoleView "$UNNAMED$25" @105
+				Parent_View 	@103
 				location   	(364, 135)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02A006F"
-				client     	@46
-				supplier   	@39
+				client     	@103
+				supplier   	@96
 				vertices   	(list Points
 				    (847, 850)
 				    (540, 735))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$15" @49
+		    (object AssociationViewNew "$UNNAMED$26" @106
 			location   	(857, 756)
 			font       	(object Font
 			    size       	10
@@ -1290,31 +2458,31 @@
 			line_color 	3342489
 			quidu      	"4B55A02B029F"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$16" @50
-				Parent_View 	@49
+			    (object RoleView "$UNNAMED$27" @107
+				Parent_View 	@106
 				location   	(374, 41)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02C005D"
-				client     	@49
-				supplier   	@34
+				client     	@106
+				supplier   	@91
 				vertices   	(list Points
 				    (857, 756)
 				    (1174, 792))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$17" @51
-				Parent_View 	@49
+			    (object RoleView "$UNNAMED$28" @108
+				Parent_View 	@106
 				location   	(374, 41)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02C005F"
-				client     	@49
-				supplier   	@39
+				client     	@106
+				supplier   	@96
 				vertices   	(list Points
 				    (857, 756)
 				    (540, 720))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$21" @52
+		    (object AssociationViewNew "$UNNAMED$32" @109
 			location   	(854, 951)
 			font       	(object Font
 			    size       	10
@@ -1329,31 +2497,31 @@
 			line_color 	3342489
 			quidu      	"4B56A0EC00DA"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$22" @53
-				Parent_View 	@52
+			    (object RoleView "$UNNAMED$33" @110
+				Parent_View 	@109
 				location   	(371, 236)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B56A0ED00AB"
-				client     	@52
-				supplier   	@38
+				client     	@109
+				supplier   	@95
 				vertices   	(list Points
 				    (854, 951)
 				    (1169, 1153))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$23" @54
-				Parent_View 	@52
+			    (object RoleView "$UNNAMED$34" @111
+				Parent_View 	@109
 				location   	(371, 236)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B56A0ED00BC"
-				client     	@52
-				supplier   	@39
+				client     	@109
+				supplier   	@96
 				vertices   	(list Points
 				    (854, 951)
 				    (540, 750))
 				line_style 	0)))
-		    (object UseCaseView "Use Case View::查看配置信息" @55
+		    (object UseCaseView "Use Case View::查看配置信息" @112
 			location   	(1287, 571)
 			font       	(object Font
 			    size       	10
@@ -1365,7 +2533,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@55
+			    Parent_View 	@112
 			    location   	(1287, 709)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1377,7 +2545,7 @@
 			fill_color 	13434879
 			quidu      	"4B559F8C0167"
 			height     	118)
-		    (object AssociationViewNew "$UNNAMED$3" @56
+		    (object AssociationViewNew "$UNNAMED$14" @113
 			location   	(864, 423)
 			font       	(object Font
 			    size       	10
@@ -1392,31 +2560,31 @@
 			line_color 	3342489
 			quidu      	"4B55A01F0213"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$4" @57
-				Parent_View 	@56
+			    (object RoleView "$UNNAMED$15" @114
+				Parent_View 	@113
 				location   	(381, 105)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02000DA"
-				client     	@56
-				supplier   	@55
+				client     	@113
+				supplier   	@112
 				vertices   	(list Points
 				    (864, 423)
 				    (1177, 531))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$5" @58
-				Parent_View 	@56
+			    (object RoleView "$UNNAMED$16" @115
+				Parent_View 	@113
 				location   	(381, 105)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02000DC"
-				client     	@56
-				supplier   	@30
+				client     	@113
+				supplier   	@87
 				vertices   	(list Points
 				    (864, 423)
 				    (552, 315))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$24" @59
+		    (object AssociationViewNew "$UNNAMED$35" @116
 			location   	(858, 645)
 			font       	(object Font
 			    size       	10
@@ -1431,26 +2599,26 @@
 			line_color 	3342489
 			quidu      	"4B56A4FE033C"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$25" @60
-				Parent_View 	@59
+			    (object RoleView "$UNNAMED$36" @117
+				Parent_View 	@116
 				location   	(375, -70)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B56A4FF0157"
-				client     	@59
-				supplier   	@55
+				client     	@116
+				supplier   	@112
 				vertices   	(list Points
 				    (858, 645)
 				    (1177, 588))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$26" @61
-				Parent_View 	@59
+			    (object RoleView "$UNNAMED$37" @118
+				Parent_View 	@116
 				location   	(375, -70)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B56A4FF0159"
-				client     	@59
-				supplier   	@39
+				client     	@116
+				supplier   	@96
 				vertices   	(list Points
 				    (858, 645)
 				    (540, 702))
@@ -1462,9 +2630,9 @@
 		max_height 	28350
 		max_width  	21600
 		origin_x   	0
-		origin_y   	125
+		origin_y   	291
 		items      	(list diagram_item_list
-		    (object ClassView "Class" "Use Case View::监视级用户" @62
+		    (object ClassView "Class" "Use Case View::监视级用户" @119
 			ShowCompartmentStereotypes 	TRUE
 			IncludeAttribute 	TRUE
 			IncludeOperation 	TRUE
@@ -1479,7 +2647,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@62
+			    Parent_View 	@119
 			    location   	(496, 785)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1492,7 +2660,7 @@
 			quidu      	"4B559F30032C"
 			annotation 	8
 			autoResize 	TRUE)
-		    (object UseCaseView "Use Case View::查看配置信息" @63
+		    (object UseCaseView "Use Case View::查看配置信息" @120
 			location   	(1359, 387)
 			font       	(object Font
 			    size       	10
@@ -1504,7 +2672,7 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@63
+			    Parent_View 	@120
 			    location   	(1359, 525)
 			    anchor_loc 	1
 			    nlines     	2
@@ -1516,8 +2684,8 @@
 			fill_color 	13434879
 			quidu      	"4B559F8C0167"
 			height     	118)
-		    (object UseCaseView "Use Case View::查看攻击日志" @64
-			location   	(1347, 878)
+		    (object UseCaseView "Use Case View::查看攻击日志" @121
+			location   	(1359, 822)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -1528,8 +2696,8 @@
 			    color      	0
 			    default_color 	TRUE)
 			label      	(object ItemLabel
-			    Parent_View 	@64
-			    location   	(1347, 1016)
+			    Parent_View 	@121
+			    location   	(1359, 960)
 			    anchor_loc 	1
 			    nlines     	2
 			    max_width  	630
@@ -1540,7 +2708,7 @@
 			fill_color 	13434879
 			quidu      	"4B559FA80167"
 			height     	118)
-		    (object AssociationViewNew "$UNNAMED$3" @65
+		    (object AssociationViewNew "$UNNAMED$14" @122
 			location   	(900, 510)
 			font       	(object Font
 			    size       	10
@@ -1555,32 +2723,32 @@
 			line_color 	3342489
 			quidu      	"4B55A01F0213"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$4" @66
-				Parent_View 	@65
+			    (object RoleView "$UNNAMED$15" @123
+				Parent_View 	@122
 				location   	(417, 192)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02000DA"
-				client     	@65
-				supplier   	@63
+				client     	@122
+				supplier   	@120
 				vertices   	(list Points
 				    (900, 510)
 				    (1247, 414))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$5" @67
-				Parent_View 	@65
+			    (object RoleView "$UNNAMED$16" @124
+				Parent_View 	@122
 				location   	(417, 192)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A02000DC"
-				client     	@65
-				supplier   	@62
+				client     	@122
+				supplier   	@119
 				vertices   	(list Points
 				    (900, 510)
 				    (553, 607))
 				line_style 	0)))
-		    (object AssociationViewNew "$UNNAMED$18" @68
-			location   	(895, 741)
+		    (object AssociationViewNew "$UNNAMED$29" @125
+			location   	(900, 715)
 			font       	(object Font
 			    size       	10
 			    face       	"Arial"
@@ -1594,29 +2762,444 @@
 			line_color 	3342489
 			quidu      	"4B55A0300138"
 			roleview_list 	(list RoleViews
-			    (object RoleView "$UNNAMED$19" @69
-				Parent_View 	@68
-				location   	(415, 401)
+			    (object RoleView "$UNNAMED$30" @126
+				Parent_View 	@125
+				location   	(420, 375)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A0310157"
-				client     	@68
-				supplier   	@64
+				client     	@125
+				supplier   	@121
 				vertices   	(list Points
-				    (895, 741)
-				    (1237, 843))
+				    (900, 715)
+				    (1247, 794))
 				line_style 	0)
-			    (object RoleView "$UNNAMED$20" @70
-				Parent_View 	@68
-				location   	(415, 401)
+			    (object RoleView "$UNNAMED$31" @127
+				Parent_View 	@125
+				location   	(420, 375)
 				stereotype 	TRUE
 				line_color 	3342489
 				quidu      	"4B55A0310159"
-				client     	@68
-				supplier   	@62
+				client     	@125
+				supplier   	@119
 				vertices   	(list Points
-				    (895, 741)
-				    (553, 640))
+				    (900, 715)
+				    (553, 636))
+				line_style 	0)))))
+	    (object UseCaseDiagram "管理级用户"
+		quid       	"4B56B095007D"
+		title      	"管理级用户"
+		zoom       	100
+		max_height 	28350
+		max_width  	21600
+		origin_x   	0
+		origin_y   	0
+		items      	(list diagram_item_list
+		    (object UseCaseView "Use Case View::查看用户信息" @128
+			location   	(1287, 109)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@128
+			    location   	(1287, 247)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"查看用户信息")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4B559F7D0177"
+			height     	118)
+		    (object UseCaseView "Use Case View::查看系统日志" @129
+			location   	(1287, 337)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@129
+			    location   	(1287, 475)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"查看系统日志")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4B559F9D005D"
+			height     	118)
+		    (object UseCaseView "Use Case View::修改系统配置" @130
+			location   	(1265, 1009)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@130
+			    location   	(1265, 1147)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"修改系统配置")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4B559F970280"
+			height     	118)
+		    (object UseCaseView "Use Case View::查看攻击日志" @131
+			location   	(1284, 809)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@131
+			    location   	(1284, 947)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"查看攻击日志")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4B559FA80167"
+			height     	118)
+		    (object UseCaseView "Use Case View::添加/修改用户" @132
+			location   	(1262, 1212)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@132
+			    location   	(1262, 1350)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"添加/修改用户")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4B56A0D50222"
+			height     	118)
+		    (object ClassView "Class" "Use Case View::管理级用户" @133
+			ShowCompartmentStereotypes 	TRUE
+			IncludeAttribute 	TRUE
+			IncludeOperation 	TRUE
+			location   	(483, 715)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@133
+			    location   	(483, 875)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	325
+			    justify    	0
+			    label      	"管理级用户")
+			icon       	"Actor"
+			icon_style 	"Icon"
+			line_color 	3342489
+			quidu      	"4B559F6C029F"
+			annotation 	8
+			autoResize 	TRUE)
+		    (object UseCaseView "Use Case View::查看配置信息" @134
+			location   	(1287, 571)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			label      	(object ItemLabel
+			    Parent_View 	@134
+			    location   	(1287, 709)
+			    anchor_loc 	1
+			    nlines     	2
+			    max_width  	630
+			    justify    	0
+			    label      	"查看配置信息")
+			icon_style 	"Icon"
+			line_color 	3342489
+			fill_color 	13434879
+			quidu      	"4B559F8C0167"
+			height     	118)
+		    (object AssociationViewNew "$UNNAMED$17" @135
+			location   	(845, 439)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4B55A02500EA"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$18" @136
+				Parent_View 	@135
+				location   	(362, -276)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A025031C"
+				client     	@135
+				supplier   	@128
+				vertices   	(list Points
+				    (845, 439)
+				    (1150, 211))
+				line_style 	0)
+			    (object RoleView "$UNNAMED$19" @137
+				Parent_View 	@135
+				location   	(362, -276)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A025031E"
+				client     	@135
+				supplier   	@133
+				vertices   	(list Points
+				    (845, 439)
+				    (540, 668))
+				line_style 	0)))
+		    (object AssociationViewNew "$UNNAMED$20" @138
+			location   	(845, 543)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4B55A02701E4"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$21" @139
+				Parent_View 	@138
+				location   	(362, -172)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A028001F"
+				client     	@138
+				supplier   	@129
+				vertices   	(list Points
+				    (845, 543)
+				    (1150, 400))
+				line_style 	0)
+			    (object RoleView "$UNNAMED$22" @140
+				Parent_View 	@138
+				location   	(362, -172)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A0280021"
+				client     	@138
+				supplier   	@133
+				vertices   	(list Points
+				    (845, 543)
+				    (540, 686))
+				line_style 	0)))
+		    (object AssociationViewNew "$UNNAMED$23" @141
+			location   	(847, 850)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4B55A029029F"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$24" @142
+				Parent_View 	@141
+				location   	(364, 135)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A02A006D"
+				client     	@141
+				supplier   	@130
+				vertices   	(list Points
+				    (847, 850)
+				    (1154, 965))
+				line_style 	0)
+			    (object RoleView "$UNNAMED$25" @143
+				Parent_View 	@141
+				location   	(364, 135)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A02A006F"
+				client     	@141
+				supplier   	@133
+				vertices   	(list Points
+				    (847, 850)
+				    (540, 735))
+				line_style 	0)))
+		    (object AssociationViewNew "$UNNAMED$26" @144
+			location   	(857, 756)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4B55A02B029F"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$27" @145
+				Parent_View 	@144
+				location   	(374, 41)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A02C005D"
+				client     	@144
+				supplier   	@131
+				vertices   	(list Points
+				    (857, 756)
+				    (1174, 792))
+				line_style 	0)
+			    (object RoleView "$UNNAMED$28" @146
+				Parent_View 	@144
+				location   	(374, 41)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B55A02C005F"
+				client     	@144
+				supplier   	@133
+				vertices   	(list Points
+				    (857, 756)
+				    (540, 720))
+				line_style 	0)))
+		    (object AssociationViewNew "$UNNAMED$32" @147
+			location   	(854, 951)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4B56A0EC00DA"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$33" @148
+				Parent_View 	@147
+				location   	(371, 236)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B56A0ED00AB"
+				client     	@147
+				supplier   	@132
+				vertices   	(list Points
+				    (854, 951)
+				    (1169, 1153))
+				line_style 	0)
+			    (object RoleView "$UNNAMED$34" @149
+				Parent_View 	@147
+				location   	(371, 236)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B56A0ED00BC"
+				client     	@147
+				supplier   	@133
+				vertices   	(list Points
+				    (854, 951)
+				    (540, 750))
+				line_style 	0)))
+		    (object AssociationViewNew "$UNNAMED$35" @150
+			location   	(858, 645)
+			font       	(object Font
+			    size       	10
+			    face       	"Arial"
+			    bold       	FALSE
+			    italics    	FALSE
+			    underline  	FALSE
+			    strike     	FALSE
+			    color      	0
+			    default_color 	TRUE)
+			stereotype 	TRUE
+			line_color 	3342489
+			quidu      	"4B56A4FE033C"
+			roleview_list 	(list RoleViews
+			    (object RoleView "$UNNAMED$36" @151
+				Parent_View 	@150
+				location   	(375, -70)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B56A4FF0157"
+				client     	@150
+				supplier   	@134
+				vertices   	(list Points
+				    (858, 645)
+				    (1177, 588))
+				line_style 	0)
+			    (object RoleView "$UNNAMED$37" @152
+				Parent_View 	@150
+				location   	(375, -70)
+				stereotype 	TRUE
+				line_color 	3342489
+				quidu      	"4B56A4FF0159"
+				client     	@150
+				supplier   	@133
+				vertices   	(list Points
+				    (858, 645)
+				    (540, 702))
 				line_style 	0)))))))
     root_category 	(object Class_Category "Logical View"
 	quid       	"4B559F0C005E"
