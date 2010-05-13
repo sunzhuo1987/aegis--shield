@@ -608,6 +608,7 @@ void CheckPreprocessorsConfig()
 
 void PostConfigInitPlugins()
 {
+
     PluginSignalFuncNode *idx;
 
     idx = PluginPostConfigList;

@@ -87,6 +87,11 @@
  
 #include "ppm.h"
 
+#if ZERO_COPY
+#include "nta/control.c"
+extern zc_t* zc_ctl;
+#endif
+
 #define MAX_RULE_OPTIONS     256
 #define MAX_LINE_LENGTH    32768
 #define MAX_IPLIST_ENTRIES  4096 
@@ -7038,11 +7043,19 @@ void ParseConfig(char *rule)
 
         if(!pv.readmode_flag)
         {
+ #if ZERO_COPY
+           if(zc_ctl != NULL)
+            {
+                zc_destroy(zc_ctl);
+            }
+#endif	   
             if(pd != NULL)
             {
                 pcap_close(pd);
                 pd = NULL;
             }
+ 
+
 
             DEBUG_WRAP(DebugMessage(DEBUG_INIT, "Opening interface: %s\n", 
                         PRINT_INTERFACE(pv.interface)););
@@ -7177,12 +7190,17 @@ void ParseConfig(char *rule)
             strlcpy(pv.readfile, args, STD_BUF);
             pv.readmode_flag = 1;
             DEBUG_WRAP(DebugMessage(DEBUG_INIT, "Opening file: %s\n", pv.readfile););
-
+#if ZERO_COPY
+           if(zc_ctl != NULL)
+            {
+                zc_destroy(zc_ctl);
+            }
+#endif
             if(pd != NULL)
             {
                 pcap_close(pd);
                 pd = NULL;
-            }
+            }     
 
             /* open the packet file for readback */
             OpenPcap();

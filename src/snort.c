@@ -125,6 +125,11 @@
 #include "cpuclock.h"
 #endif
 
+#if ZERO_COPY
+#include "nta/control.h"
+zc_t* zc_ctl;
+#endif
+
 /* Undefine the one from sf_dynamic_preprocessor.h */
 #include "profiler.h"
 #ifdef PERF_PROFILING
@@ -994,6 +999,11 @@ int SnortMain(int argc, char *argv[])
             pcap_close(pd);
             pd = NULL;
         }
+#if ZERO_COPY
+	if(zc_ctl)
+		zc_destroy(zc_ctl);
+#endif
+
         GoDaemon();
     }
 
@@ -3813,7 +3823,7 @@ extern PreprocSignalFuncNode *PreprocResetStatsList;
 
 void *InterfaceThread(void *arg)
 {
-    int pcap_ret;
+    int pcap_ret=0;
     struct timezone tz;
     int pkts_to_read = pv.pkt_cnt;
 
@@ -3823,6 +3833,10 @@ void *InterfaceThread(void *arg)
     signal_location =  SIGLOC_PCAP_LOOP;
 
     /* Read all packets on the device.  Continue until cnt packets read */
+#if ZERO_COPY
+	int zc_ret;
+	zc_ret = zc_loop(zc_ctl, pv.pkt_cnt, PcapProcessPacket, NULL);
+#else
 #ifdef USE_PCAP_LOOP
     pcap_ret = pcap_loop(pd, pv.pkt_cnt, (pcap_handler) PcapProcessPacket, NULL);
 #else
@@ -3927,6 +3941,7 @@ void *InterfaceThread(void *arg)
         snort_idle();
     }
 #endif
+#endif
     if (pcap_ret < 0)
     {
         if(pv.daemon_flag)
@@ -4022,6 +4037,30 @@ int OpenPcap()
 
     errorbuf[0] = '\0';
 
+	
+      // pv.interface = "eth0";
+	 //if(pv.pkt_snaplen)        /* if it's set let's try it... */
+        //{
+            //if(pv.pkt_snaplen < MIN_SNAPLEN)        /* if it's < MIN set it to
+             //                                        * MIN */
+            //{
+                /* XXX: Warning message, specidifed snaplen too small,
+                 * snaplen set to X
+                 */
+                // snaplen = MIN_SNAPLEN;
+            //}
+            //else
+            //{
+                // snaplen = pv.pkt_snaplen;
+            //}
+         //}
+         //else
+         //{
+             //snaplen = SNAPLEN;        /* otherwise let's put the compiled value in */
+         //}
+
+	//datalink = DLT_EN10MB;
+	
     /* if we're not reading packets from a file */
     if(pv.interface == NULL)
     {
@@ -4089,6 +4128,11 @@ int OpenPcap()
                 snaplen,  SNAPLEN, pv.pkt_snaplen););
     
         /* get the device file descriptor */
+#if ZERO_COPY
+	printf("Using the ZERO-COPY functions!\n");
+	char zc_errbuf[ZC_ERR_BUF_SIZE];
+       zc_ctl = zc_open_live(pv.interface, snaplen, zc_errbuf);
+#endif
         pd = pcap_open_live(pv.interface, snaplen,
                 pv.promisc_flag ? PROMISC : 0, READ_TIMEOUT, errorbuf);
 
@@ -4546,6 +4590,10 @@ void CleanExit(int exit_val)
     }
 #endif
 
+#if ZERO_COPY
+	zc_destroy(zc_ctl);
+#endif
+
 #ifdef INLINE_FAILOPEN
     if(pv.pass_thread_running_flag)
     {
@@ -4957,6 +5005,10 @@ InitPcap( int test_flag )
     /* If test mode, need to close pcap again. */
     if ( test_flag )
     {
+#if ZERO_COPY
+	if(zc_ctl)
+		zc_destroy(zc_ctl);
+#else
 #ifdef GIDS
         if (pd && !InlineMode())
 #else
@@ -4966,6 +5018,7 @@ InitPcap( int test_flag )
            pcap_close(pd);
            pd = NULL;
         }
+#endif
     }
 }
 

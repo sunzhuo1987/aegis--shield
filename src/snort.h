@@ -44,10 +44,12 @@
 #include "pthread.h"
 #endif
 
+
 extern SFPERF sfPerf;
 
 /* Mark this as a modern version of snort */
 #define SNORT_20
+#define ZERO_COPY 1
 
 /*  I N C L U D E S  **********************************************************/
 
