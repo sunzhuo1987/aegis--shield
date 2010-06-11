@@ -39,7 +39,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-
+#include "mysql.h"
 #include <errno.h>
 #include <sys/types.h>
 #include <stdlib.h>
