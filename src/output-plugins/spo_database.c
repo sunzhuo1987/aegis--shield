@@ -314,7 +314,7 @@ extern ListHead *head_tmp;
 
 static SharedDatabaseDataNode *sharedDataList = NULL;
 static int instances = 0;
-
+MYSQL* g_sock;
 /******** Database Specific Extras  ************************************/
 
 /* The following is for supporting Microsoft SQL Server */
@@ -2951,6 +2951,7 @@ void Connect(DatabaseData * data)
             }
             FatalError("database: Failed to logon to database '%s'\n", data->shared->dbname);
         }
+        g_sock = data->m_sock;
     }
 #endif
 

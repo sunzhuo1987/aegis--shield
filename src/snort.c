@@ -3826,9 +3826,16 @@ static struct timeval starttime;
 static struct timeval endtime;
 extern PreprocSignalFuncNode *PreprocResetList;
 extern PreprocSignalFuncNode *PreprocResetStatsList;
-
+/*added by coreyao*/
+extern int readFirstConfigFile;
+/*added by coreyao*/
 void *InterfaceThread(void *arg)
 {
+	/*added by coreyao*/
+	char* filename = "/etc/snort/proto.config";
+	char* updateFileName = "/etc/snort/update_proto.config";
+	/*added by coreyao*/
+
     int pcap_ret=0;
     struct timezone tz;
     int pkts_to_read = pv.pkt_cnt;
@@ -3837,6 +3844,15 @@ void *InterfaceThread(void *arg)
     gettimeofday(&starttime, &tz);
 
     signal_location =  SIGLOC_PCAP_LOOP;
+
+   /*added by coreyao*/
+	ParseConfigurationFile(filename);
+	readFirstConfigFile = 1;
+	fprintf(stderr, "Begin to read updateFile\n");
+	ParseConfigurationFile(updateFileName);
+	fprintf(stderr, "Read updateFile complete\n");
+	/*added by coreyao*/
+
 
     /* Read all packets on the device.  Continue until cnt packets read */
 #if ZERO_COPY
@@ -5094,7 +5110,7 @@ void get_rule(void)
   system(command);
 
   /*L7 rule   save rule files   */
-  if ( (fd2  = fopen(path_L7_config, "w" )) = NULL)
+  if ( (fd2  = fopen(path_L7_config, "w" )) == NULL)
   {
     fprintf(stderr, "Can't open %s for write\n",path_L7_config);
     exit(1);
@@ -5103,6 +5119,7 @@ void get_rule(void)
   {  
     strcpy(filepath,path_L7);/* Copy L7 path */
     strcat(filepath,record[3]); /* Get L7 Rule filename */
+    strcat(filepath,".pat");
     if( (fd  = fopen(filepath, "w" )) == NULL ) 
     {
       fprintf(stderr, "Can't open %s for write\n",filepath);

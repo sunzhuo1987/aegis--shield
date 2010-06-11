@@ -56,6 +56,17 @@
 #include "ppm.h"
 #include "sf_types.h"
 
+/*added by coreyao*/
+#include "ConnectionTrack.h"
+#include "ParsePatterns.h"
+#include "mysql.h"
+#include "list.h"
+#define HOMENET      homenet
+#define HOMENETMASK  homenetmask 
+extern MYSQL* g_sock;
+/*added by coreyao*/
+
+
 /* XXX modularization violation */
 #include "preprocessors/spp_flow.h"
 
@@ -511,6 +522,21 @@ void CallAlertPlugins(Packet * p, char *message, void *args, Event *event)
  ***************************************************************************/
 int Detect(Packet * p)
 {
+	/*added by coreyao*/
+	int mark = 0;
+	unsigned int srcip = 0;
+	unsigned short srcport = 0;
+	char* proto = NULL;
+
+	char* insertion = NULL;
+	int i = 0;
+	int len = 0;
+	struct timeval tv = {0, 0};
+	time_t time = 0;
+	const char* pkt = p->pkt;
+	/*added by coreyao*/
+
+
     int detected = 0;
     PROFILE_VARS;
 
@@ -541,6 +567,72 @@ int Detect(Packet * p)
             return 0; 
     }
 #endif
+
+			/*start calling the Application layer detection process
+			   added by coreyao*/	
+
+			if (front == NULL)
+			{
+				InitInsertionQueue();
+			}
+
+			if (*((char*)pkt + 14 + 9) == IPPROTO_TCP || *((char*)pkt + 14 + 9) == IPPROTO_UDP)
+			{
+				mark = ParsePacket((char*)pkt + 14, &srcip, &srcport, &proto);
+				if ( mark > 2 )
+				{
+					if ((srcip & inet_addr(HOMENETMASK)) != inet_addr(HOMENET))
+						return;
+					if (!NeedToBeInserted(srcip, proto))
+						return;
+
+					fprintf(stderr, "source: %s:%u\nproto: %s\n", 
+						inet_ntoa(*(struct in_addr*)&srcip),
+						ntohs(srcport),
+						proto);
+
+					insertion = (char*)malloc(8192 + 1);
+					memset(insertion, 0, 8192 + 1);
+					gettimeofday(&tv, NULL);
+					time = tv.tv_sec;
+					if (0 != SnortSnprintf(insertion, 8192,
+						"INSERT INTO approto(time,ip,port,proto) "
+						"VALUES (%u, %u, %u, '%s')", 
+						time, srcip, srcport, proto))
+					{
+						fprintf(stderr, "Unable to construct query\n");
+					}
+
+					InQueue(insertion);
+					free(proto);
+
+					len = GetLength();
+					if (len > 2)
+					{
+						for (i = 0; i < len; ++i)
+						{
+							insertion = OutQueue();
+							if (insertion != NULL)
+							{
+								if (!mysql_query(g_sock, insertion))
+								{	
+									fprintf(stderr, "Insert into success\n");
+								}	
+								else
+								{
+									fprintf(stderr, "error:%s\n", mysql_error(g_sock));
+								}
+								free(insertion);
+                                                                insertion = NULL;
+							}
+						}
+					}
+				}
+			}
+	
+			/*added by coreyao*/
+
+	
 
     /*
     **  This is where we short circuit so 

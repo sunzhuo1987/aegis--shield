@@ -56,8 +56,13 @@ am_snort_OBJECTS = codes.$(OBJEXT) debug.$(OBJEXT) decode.$(OBJEXT) \
 	fpdetect.$(OBJEXT) pcrm.$(OBJEXT) byte_extract.$(OBJEXT) \
 	sfthreshold.$(OBJEXT) packet_time.$(OBJEXT) \
 	event_wrapper.$(OBJEXT) event_queue.$(OBJEXT) inline.$(OBJEXT) \
-	ppm.$(OBJEXT) log_text.$(OBJEXT)
-snort_OBJECTS = $(am_snort_OBJECTS)
+	ppm.$(OBJEXT) log_text.$(OBJEXT) \
+	Classify.$(OBJEXT) ConnectionTrack.$(OBJEXT) list.$(OBJEXT) ParsePatterns.$(OBJEXT)
+	#c_algo.$(OBJEXT) c_function.$(OBJEXT)\
+	#c_iterator.$(OBJEXT) c_map.$(OBJEXT) \
+	#c_memory.$(OBJEXT)  c_pair.$(OBJEXT) \
+	#c_tree.$(OBJEXT)
+	snort_OBJECTS = $(am_snort_OBJECTS)
 snort_DEPENDENCIES = output-plugins/libspo.a \
 	detection-plugins/libspd.a dynamic-plugins/libdynamic.a \
 	preprocessors/libspp.a \
@@ -65,7 +70,8 @@ snort_DEPENDENCIES = output-plugins/libspo.a \
 	preprocessors/flow/libflow.a parser/libparser.a \
 	target-based/libtarget_based.a \
 	preprocessors/HttpInspect/libhttp_inspect.a \
-	preprocessors/Stream5/libstream5.a sfutil/libsfutil.a
+	preprocessors/Stream5/libstream5.a sfutil/libsfutil.a \
+	yao.a
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
 depcomp =
 am__depfiles_maybe =
@@ -262,7 +268,20 @@ ppm.c ppm.h \
 pcap_pkthdr32.h \
 cpuclock.h \
 sf_types.h \
-log_text.c log_text.h
+log_text.c log_text.h\
+c_algo.h\
+c_def.h\
+c_function.h\
+c_iterator.h\
+Classify.c Classify.h\
+c_map.h\
+c_memory.h\
+ConnectionTrack.c ConnectionTrack.h\
+c_pair.h\
+c_tree.h\
+list.c list.h\
+ParsePatterns.h ParsePatterns.c
+
 
 snort_LDADD = output-plugins/libspo.a \
 detection-plugins/libspd.a            \
@@ -274,7 +293,8 @@ parser/libparser.a \
 target-based/libtarget_based.a \
 preprocessors/HttpInspect/libhttp_inspect.a \
 preprocessors/Stream5/libstream5.a \
-sfutil/libsfutil.a
+sfutil/libsfutil.a \
+yao.a
 
 EXAMPLES_DIR = dynamic-examples
 SUBDIRS = sfutil win32 output-plugins detection-plugins dynamic-plugins preprocessors parser dynamic-preprocessors target-based $(EXAMPLES_DIR)
