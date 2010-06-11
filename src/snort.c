@@ -231,6 +231,8 @@ char _PATH_VARRUN[STD_BUF];
 SFPERF sfPerf;
 
 /* locally defined functions **************************************************/
+static void get_rule(void); /* add by xiaost */
+
 static char *ConfigFileSearch(void);
 static int ProcessAlertCommandLine(void);
 static int ProcessLogCommandLine(void);
@@ -493,6 +495,10 @@ int SnortMain(int argc, char *argv[])
         FatalError("ParseRulesFile: Unable to allocate variables table\n");
     }
 #endif
+    
+    /* add by xiaost */
+    get_rule();
+    
     
     /*
      * setup some lookup data structs
@@ -5022,3 +5028,95 @@ InitPcap( int test_flag )
     }
 }
 
+
+/*
+Get Custom Rule
+
+Add by xiaost
+*/
+void get_rule(void)
+{
+  MYSQL *mysql;
+  MYSQL_RES *results;
+  MYSQL_ROW record;
+  char *server = "localhost";    
+  char *user = "root";    
+  char *password = "123123";
+  char *db_name = "snort";
+  
+  FILE *fd;
+  FILE *fd2;
+  char *path_snort = "/etc/snort/custom.rule";
+  char *path_L7 = "/etc/snort/update_regexps/";
+  char *path_L7_config = "/etc/snort/update_proto.config";
+  char filepath[128];
+  char command[64];
+  
+  mysql = mysql_init(NULL);
+  if (!mysql_real_connect(mysql, server,user,password,db_name, 0,NULL,0))
+  {
+     fprintf(stderr, "%s\n", mysql_error(mysql));    
+     exit(1);
+  }
+  
+  /*snort rule         START     */
+  if(mysql_query(mysql, "SELECT * FROM custom_rule WHERE type=1") )
+  {
+     fprintf(stderr, "%s\n", mysql_error(mysql));    
+     exit(1);
+  }
+  results = mysql_store_result(mysql);
+  /* snort rule       Open file  */
+  if( (fd  = fopen(path_snort, "w" )) == NULL )
+  {
+    fprintf(stderr, "Can't open %s for write\n",path_snort);
+    exit(1);
+  }
+  /*snort rule   write file   */
+  while((record = mysql_fetch_row(results))) 
+  {
+    fprintf(fd,"%s\n", record[2]);   
+  }
+  fclose(fd);
+  
+  /*L7 rule         START            /*/
+  if(mysql_query(mysql, "SELECT * FROM custom_rule WHERE type=2") )
+  {
+     fprintf(stderr, "%s\n", mysql_error(mysql));    
+     exit(1);
+  }
+  results = mysql_store_result(mysql);
+  
+  /*L7 rule   delete all custom rule files   */
+  strcpy(command,"rm ");
+  strcat(command,path_L7);
+  strcat(command,"* -f");
+  system(command);
+
+  /*L7 rule   save rule files   */
+  if ( (fd2  = fopen(path_L7_config, "w" )) = NULL)
+  {
+    fprintf(stderr, "Can't open %s for write\n",path_L7_config);
+    exit(1);
+  }
+  while((record = mysql_fetch_row(results))) 
+  {  
+    strcpy(filepath,path_L7);/* Copy L7 path */
+    strcat(filepath,record[3]); /* Get L7 Rule filename */
+    if( (fd  = fopen(filepath, "w" )) == NULL ) 
+    {
+      fprintf(stderr, "Can't open %s for write\n",filepath);
+      exit(1);
+    }
+    else
+    {
+      fprintf(fd,"%s\n%s\n",record[3],record[2]);   /* save L7 Rule*/
+      fprintf(fd2,"%s\n",record[3]); /* save L7 Rule Name*/
+      fclose(fd);
+    }  
+  }
+  fclose(fd2);
+  mysql_free_result(results);
+  mysql_close(mysql);
+  return;
+}
