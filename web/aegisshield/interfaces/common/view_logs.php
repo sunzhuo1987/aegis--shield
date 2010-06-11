@@ -1,0 +1,1 @@
+<?php	require_once('interfaces/common/graph_main.php'); ?>

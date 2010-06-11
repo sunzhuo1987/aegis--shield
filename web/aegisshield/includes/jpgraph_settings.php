@@ -1,0 +1,5 @@
+<?php
+	//²âÊÔjpgraphÊý¾Ý
+	$width = 600; 
+	$height = 200;
+?>
