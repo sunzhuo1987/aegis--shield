@@ -132,7 +132,6 @@ $user_selected=$USER->get_user($_GET['id']);
 	<th>&nbsp;</th>
     <th><?php echo $admin[21]; ?></th>
     <th><?php echo $admin[23]; ?></th>
-    <th><?php echo $admin[55]; ?></th>
     <th><?php echo $admin[25]; ?></th>
 	<th><?php echo $admin[60]; ?></th>
   </tr>
@@ -140,8 +139,13 @@ $user_selected=$USER->get_user($_GET['id']);
 	$users_id=$USER->get_users_id();
 	foreach($users_id as $value){
 		$user_selected=$USER->get_user($value['id']);
-		$group_selected=$GROUP->get_group($user_selected['group_id']);
-		echo '<tr><td>'.$USER->get_account_img($user_selected['account']).'</td><td>'.htmlspecialchars($user_selected['username']).'</td><td>'.htmlspecialchars($user_selected['email']).'</td><td>'.htmlspecialchars($group_selected['name']).'</td><td>'.$USER->get_privilege_name($user_selected['privilege']).'</td><td>'.$USER->option_list($user_selected['id']).'</td></tr>';
+		//$group_selected=$GROUP->get_group($user_selected['group_id']);
+		echo '<tr><td>'.$USER->get_account_img($user_selected['account'])
+		.'</td><td>'.htmlspecialchars($user_selected['username'])
+		.'</td><td>'.htmlspecialchars($user_selected['email'])
+		.'</td><td>'.$USER->get_privilege_name($user_selected['privilege'])
+		.'</td><td>'.$USER->option_list($user_selected['id'])
+		.'</td></tr>';
 	}
 ?>
 </table>

@@ -40,7 +40,8 @@
   /*
 	 * Í¼±íÀàÐÍ
 	 */
-   
+  $isStart = $GRAPH_DATA->checkTime($time_begin);
+  $isEnd = $GRAPH_DATA->checkTime($time_end);
   
   switch ($chart_type)
   {
@@ -57,6 +58,18 @@
          $GRAPH_DATA->getTimeDataSet($xdata, $chart_type, $time_begin, $time_end);
          //$chart_title = $chart_title."\n ( ".$xdata[0][0]." - ".$xdata[count($xdata)-1][0]." )";
         
+           if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
          break;
      }
      case 6:  // Src. IP vs. Num Alerts
@@ -67,6 +80,18 @@
 
          
          $data_pnt_cnt = $GRAPH_DATA->getIpDataSet($xdata, $chart_type, $time_begin, $time_end);
+           if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
          break;
         
      }
@@ -78,6 +103,18 @@
 		
          $data_pnt_cnt = $GRAPH_DATA->getIpDataSet($xdata, $chart_type, $time_begin, $time_end);
         
+           if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
          break;
       }
       case 8:  // UDP Port vs. Num Alerts 
@@ -88,6 +125,18 @@
 	     
          $data_pnt_cnt = $GRAPH_DATA->getPortDataSet($xdata, $chart_type, $time_begin, $time_end);
          
+            if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
          break;
       }
       case 10:  // UDP Port vs. Num Alerts 
@@ -98,6 +147,18 @@
 	     
          $data_pnt_cnt = $GRAPH_DATA->getPortDataSet($xdata, $chart_type, $time_begin, $time_end);
          
+            if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
          break;
        }
        case 9:  // TCP Port vs. Num Alerts 
@@ -109,6 +170,18 @@
           
           $data_pnt_cnt = $GRAPH_DATA->getPortDataSet($xdata, $chart_type, $time_begin, $time_end);
           
+             if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
           break;
        }
        case 11:  // TCP Port vs. Num Alerts 
@@ -119,6 +192,18 @@
 	      
           $data_pnt_cnt = $GRAPH_DATA->getPortDataSet($xdata, $chart_type, $time_begin, $time_end);
           
+           if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
           break;
        }
        case 12:  // Classification vs. Num Alerts 
@@ -138,9 +223,19 @@
            $yaxis_label = "Alert Occurrences";
 		  
            $data_pnt_cnt = $GRAPH_DATA->getSensorDataSet($xdata, $chart_type, $time_begin, $time_end);
-           $chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
+           
+           if($isStart == "1" && $isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." - ".
            					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
-         
+           }else if($isStart == "1")
+           {
+           		$chart_title = $chart_title."\n ( ".$time_begin[3]."-".$time_begin[2]."-".$time_begin[1]." -  )";
+           }else if($isEnd == "1")
+           {
+           		$chart_title = $chart_title."\n (   -  ".
+           					$time_end[3]."-".$time_end[2]."-".$time_end[1]." )";
+           }
            break;
        }
   }

@@ -12,7 +12,7 @@ class rule {
 	//Check if a rule exists
 	function exist_rule($id){
 		$id=(int)$id;
-		$row = $this->DB->GetRow("SELECT * FROM `".DB_PREFIX."rules` WHERE `id`='$id'");
+		$row = $this->DB->GetRow("SELECT * FROM custom_rule WHERE `id`='$id'");
 		$tot=count($row);
 		if ($tot>0){
 			return true;
@@ -27,19 +27,8 @@ class rule {
 		if ($rule_array['type']=='' || $rule_array['rule']=='' || $rule_array['proto']==''){
 			return "add rule failed";
 		}
-		/*
-		elseif (!$this->check_rule($rule_array['rulename'])){
-			return $GLOBALS['admin'][46].'<br />'.$GLOBALS['admin'][43];
-		}
-		elseif (!$this->check_password($rule_array['passwd'])){
-			return $GLOBALS['admin'][46].'<br />'.$GLOBALS['admin'][73];
-		}
-		elseif (!$this->check_email($rule_array['email'])){
-			return $GLOBALS['admin'][46].'<br />'.$GLOBALS['admin'][45];
-		}
-		*/
 		
-		$this->DB->Execute("INSERT INTO `".DB_PREFIX."rules` (`type`, `rule`, `proto`) VALUES ('".$rule_array['type']."', '".$rule_array['rule']."', '".$rule_array['proto'].")");
+		$this->DB->Execute("INSERT INTO custom_rule (`type`, `rule`, `proto`) VALUES ('".$rule_array['type']."', '".$rule_array['rule']."', '".$rule_array['proto'].")");
 		
 		return $GLOBALS['admin'][47];
 	}
@@ -48,7 +37,7 @@ class rule {
 	function change_rule($id, $rule){
 		$id=(int)$id;
 		if ($this->exist_rule($id)){
-			$this->DB->Execute("UPDATE `".DB_PREFIX."rules` SET `rule`='".$rule."' WHERE `id`='$id'");
+			$this->DB->Execute("UPDATE custom_rule SET `rule`='".$rule."' WHERE `id`='$id'");
 			return 'Rule updated!';
 		}
 		return 'Rule Not updated! Call Administrator...';
@@ -60,7 +49,7 @@ class rule {
 	function del_rule($id){
 		$id=(int)$id;
 		if ($this->exist_rule($id)){
-			$this->DB->Execute("DELETE FROM `".DB_PREFIX."rules` WHERE `id`='$id'");
+			$this->DB->Execute("DELETE FROM custom_rule WHERE `id`='$id'");
 			//$this->DB->Execute("DELETE FROM `".DB_PREFIX."ip_history` WHERE `rule_id`='$id'");
 			//$this->DB->Execute("DELETE FROM `".DB_PREFIX."sessions` WHERE `rule_id`='$id'");
 			//$this->DB->Execute("DELETE FROM `".DB_PREFIX."rule_blocks` WHERE `rule_id`='$id'");
@@ -76,7 +65,7 @@ class rule {
 	function get_rule($id){
 		$id=(int)$id;
 		if ($this->exist_rule($id)){
-			return $this->DB->GetRow("SELECT * FROM `".DB_PREFIX."rules` WHERE id='$id'");
+			return $this->DB->GetRow("SELECT * FROM custom_rule WHERE id='$id'");
 		}
 		exit('User doesn\'t exist (get_rule)');
 	}
@@ -85,7 +74,7 @@ class rule {
 	//Get id of all rules
 	function get_rules_id(){
 		$rules=array();
-		$rs = & $this->DB->Execute("SELECT `id` FROM `".DB_PREFIX."rules`");
+		$rs = & $this->DB->Execute("SELECT `id` FROM custom_rule");
 		while (!$rs->EOF){
 			$rules[]=$rs->fields;
 			$rs->MoveNext();

@@ -72,8 +72,6 @@
 
      unset($xdata);
      unset($xlabel);
-
-     echo "<H3>Starting data import ...</H3>";
 	
   /*
    * chart time begin
@@ -93,7 +91,7 @@
   $time_end[3] =  $chart_end_year;
 	
 
-    switch ($chart_type)
+  switch ($chart_type)
   {
      case 1:
      case 2:
@@ -105,9 +103,7 @@
          $xaxis_label = "Time";
          $yaxis_label = "Alert Occurrences";
          
-         $GRAPH_DATA->getTimeDataSet($xdata, $chart_type, $time_begin, $time_end);
-         //$chart_title = $chart_title."\n ( ".$xdata[0][0]." - ".$xdata[count($xdata)-1][0]." )";
-        
+         $data_pnt_cnt = $GRAPH_DATA->getTimeDataSet($xdata, $chart_type, $time_begin, $time_end);     
          break;
      }
      case 6:  // Src. IP vs. Num Alerts
@@ -172,16 +168,6 @@
           
           break;
        }
-       case 12:  // Classification vs. Num Alerts 
-       {
-          $chart_title = "Signature Classification vs. Number of Alerts";
-          $xaxis_label = "Classification";
-          $yaxis_label = "Alert Occurrences";
-	      /*
-          $data_pnt_cnt = $GRAPH_DATA->getClassificationDataSet($xdata, $chart_type, $min_size, $criteria);
-      	  */
-          break;
-       }
        case 13:  // Sensor vs. Num Alerts 
        {
            $chart_title = "Sensor vs. Number of Alerts";
@@ -198,22 +184,9 @@
 
      if ( $data_pnt_cnt > 0 )
      {
-		
-        /* for test
-        echo "<IMG SRC=\"interfaces/common/general_display1.php?width=$width&height=$height\" />";
-          $chart_begin_hour = $_POST["chart_begin_hour"];
-  			$chart_begin_month = $_POST["chart_begin_month"];
-  		$chart_begin_day = $_POST["chart_begin_day"];
-  		$chart_begin_year = $_POST["chart_begin_year"];
-  		$chart_end_hour = $_POST["chart_end_hour"];
-  		$chart_end_month = $_POST["chart_end_month"];
-  		$chart_end_day = $_POST["hart_end_day"];
- 		 $chart_end_year = $_POST["chart_end_year"];
-        */
    		/*
    		 * 
    		 */
-     	echo "data_pnt_cnt: ".$data_pnt_cnt;
         echo "<CENTER>
               <IMG SRC=\"interfaces/common/graph_display_".$chart_style.".php?width=$width&height=$height".
                       "&pmargin0=$pmargin0&pmargin1=$pmargin1".
@@ -221,27 +194,9 @@
                       "&chart_type=$chart_type&chart_interval=$chart_interval".
         			  "&chart_begin_hour=$chart_begin_hour&chart_begin_month=$chart_begin_month&chart_begin_day=$chart_begin_day&chart_begin_year=$chart_begin_year".
         			  "&chart_end_hour=$chart_end_hour&chart_end_month=$chart_end_month&chart_end_day=$chart_end_day&chart_end_year=$chart_end_year".
-        			  "\"></CENTER>";
-        /*
-        echo "<CENTER>
-              <IMG SRC=\"interfaces/common/graph_display.php?width=$width&height=$height".
-                      "&pmargin0=$pmargin0&pmargin1=$pmargin1".
-                      "&pmargin2=$pmargin2&pmargin3=$pmargin3".
-                      "&title=".rawurlencode($user_chart_title."\n".$chart_title).
-                      "&xaxis_label=".rawurlencode($xaxis_label).
-                      "&yaxis_label=".rawurlencode($yaxis_label).
-                      "&yaxis_scale=".rawurlencode($yaxis_scale).
-                      "&rotate_xaxis_lbl=".rawurlencode($rotate_xaxis_lbl).
-                      "&yaxis_scale=".$yaxis_scale.
-                      "&xaxis_grid=".$xaxis_grid.
-                      "&yaxis_grid=".$yaxis_grid.
-                      "&style=".$chart_style.
-                      "\"></CENTER>";
-        */
-       
+        			  "\"></CENTER>";    
       }
       else
-        //ErrorMessage("No data points to plot");
         echo 'No data !';
    }
 ?>

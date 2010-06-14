@@ -11,10 +11,14 @@
 	
 
 switch($_GET['type']){
-	case 'add_rule':
 	/*
 	 * Ìí¼Ó¹æÔò
 	 */
+	case 'add_rule':
+?>
+<table>
+</table>
+<?php 
 		break;
 		
 	/*

@@ -28,94 +28,54 @@ class graph_data{
 	/*
 	 * $xdata 保存的数据
 	 * $chart_type 图表类型
-	 * $min_threashold 最小单位
-	 * $criteria 查询条件
 	 */
-	function getTimeDataSet(&$xdata, $chart_type, $time_start, $time_end/*$min_threshold, $criteria*/){
-		
-   		//$sql = "SELECT min(timestamp), max(timestamp) FROM event ";
- 
+	function getTimeDataSet(&$xdata, $chart_type, $time_start, $time_end){
+		 
+		$isStart = $this->checkTime($time_start);
+		$isEnd = $this->checkTime($time_end);
+		/*
+		 * 获取开始，结束时间戳
+		 */
+		if($isStart == "1" && $isEnd == "1")
+		{
+			$sql = "SELECT min(timestamp), max(timestamp) FROM event ".
+					"WHERE timestamp > "."'$time_start[3]-$time_start[2]-$time_start[1] "."$time_start[0]:00:00'".
+      		 		"AND timestamp < "."'$time_end[3]-$time_end[2]-$time_end[1] "."$time_end[0]:00:00'";
+		}
+		else if($isStart == "1")
+		{
+			$sql = "SELECT min(timestamp), max(timestamp) FROM event ".
+			"WHERE timestamp > "."'$time_start[3]-$time_start[2]-$time_start[1] "."$time_start[0]:00:00'";
+		}
+		else if($isEnd == "1")
+		{
+			$sql = "SELECT min(timestamp), max(timestamp) FROM event ".
+					"WHERE timestamp < "."'$time_end[3]-$time_end[2]-$time_end[1] "."$time_end[0]:00:00'";
+		}
+		else{
+			$sql = "SELECT min(timestamp), max(timestamp) FROM event ";
+		}
 
-   		//$result = $this->DB->GetRow($sql);
-  	    //$start_time = $myrow[0];
-        //$stop_time = $myrow[1];
-       	if($time_start[0]!=""&&$time_start[1]!=""&&$time_start[2]!="" &&$time_start[3]!="")
-       	{
-       		/*
-   			$year_start  = date("Y", strtotime($time_start[0]));
-   			$month_start = date("m", strtotime($time_start[1]));
-   			$day_start   = date("d", strtotime($time_start[2]));
-   			$hour_start  = date("H", strtotime($time_start[3]));
-   			*/
-       		$chart_start = $time_start;
-       	}
-       	
-       	if($time_end[0]!=""&&$time_end[1]!=""&&$time_end[2]!=""&&$time_end[3]!="")
-       	{
-       		/*
-   			$year_end  = date("Y", strtotime($time_end[0]));
-   			$month_end = date("m", strtotime($time_end[1]));
-   			$day_end   = date("d", strtotime($time_end[2]));
-   			$hour_end  = date("H", strtotime($time_end[3]));
-   			*/
-       		$chart_end = $time_end;
-       	}
-  
-  		// begin 开始时间由graph_form中的表单设置
-  		/*
-  		if ( strcmp ($chart_begin_year, " ") and 
-       		($year_start < $chart_begin_year) ) {
-    			$year_start  = $chart_begin_year;
-    			$month_start = "01";
-    			$day_start   = "01";
-    			$hour_start  = "00";
-  		}
-  		if ( strcmp ($chart_begin_month, " ") and
-       		($month_start < $chart_begin_month) ) {
-    			$month_start = $chart_begin_month;
-    			$day_start   = "01";
-    			$hour_start  = "00";
-  		}
-  		if ( strcmp ($chart_begin_day, " ") and
-       		($day_start < $chart_begin_day) ) {
-    			$day_start  = $chart_begin_day;
-    			$hour_start  = "00";
-  		}
-  		if ( strcmp ($chart_begin_hour, " ") and
-       		($hour_start < $chart_begin_hour) ) {
-    			$hour_start  = $chart_begin_hour;
-  		}
-		*/
-  		//end	结束时间由graph_form中的表单设置
-  		/*
-  		global $chart_end_year;
-  		global $chart_end_month;
-  		global $chart_end_day;
-  		global $chart_end_hour;
-  		if ( strcmp ($chart_end_year, " ") and 
-       		($year_end < $chart_end_year) ) {
-   			$year_end  = $chart_end_year;
-    		$month_end = "01";
-    		$day_end   = "01";
-    		$hour_end  = "00";
-  		}
-  		if ( strcmp ($chart_end_month, " ") and
-       		($month_end < $chart_end_month) ) {
-    		$month_end = $chart_end_month;
-    		$day_end   = "01";
-    		$hour_end  = "00";
-  		}
-  		if ( strcmp ($chart_end_day, " ") and
-       		($day_end < $chart_end_day) ) {
-    		$day_end  = $chart_end_day;
-    		$hour_end  = "00";
-  		}
-  		if ( strcmp ($chart_end_hour, " ") and
-       		($hour_end < $chart_end_hour) ) {
-    		$hour_end  = $chart_end_hour;
-  		}
 
-		
+  		$result = $this->DB->GetRow($sql);
+   		$start_time = $result[0];
+   		$stop_time = $result[1];
+   		
+   		/*
+   		 * check if the start_time and stop time is NULL
+   		 */
+   		
+   		
+   		$year_start  = date("Y", strtotime($start_time));
+   		$month_start = date("m", strtotime($start_time));
+   		$day_start   = date("d", strtotime($start_time));
+   		$hour_start  = date("H", strtotime($start_time));
+
+   		$year_end  = date("Y", strtotime($stop_time));
+   		$month_end = date("m", strtotime($stop_time));
+   		$day_end   = date("d", strtotime($stop_time));
+   		$hour_end  = date("H", strtotime($stop_time));
+   		
    		switch($chart_type)
    		{ 
      		case 1:  // hour
@@ -134,29 +94,173 @@ class graph_data{
         		$hour_start = -1;
         		break; 
      		}
+     		case 5: //  year
+     		{
+     			$day_start = -1;
+     			$hour_start = -1;
+     			$month_start = -1;
+     			break;
+     		}
   		}
-  		*/
-  		if($chart_begin && $chart_end)
-  			$sql = "SELECT * FROM `event` WHERE timestamp >"; 
-  		else if($chart_begin)
-  			$sql = ""; 
-  			
-  		else if($chart_end)
-  			$sql = "";
-  		else
-  			$sql = "SELECT * FROM event";
+
+  		$cnt = 0;
+
+
+  		for ( $i_year = $year_start; $i_year <= $year_end; $i_year++ )
+  		{
+     		 $sql = "SELECT count(*) FROM event WHERE ".
+             	"YEAR(timestamp) = $i_year";
+
+      		if ( $month_start != -1 )
+      		{
+         		if ($i_year == $year_start)  $month_start2 = $month_start;  else  $month_start2 = 1;
+         		if ($i_year == $year_end)    $month_end2 = $month_end;      else  $month_end2 = 12;
+
+         		for ( $i_month = $month_start2; $i_month <= $month_end2; $i_month++ )
+         		{
+             		$sql = "SELECT count(*) FROM event WHERE ".
+                    "YEAR(timestamp) = $i_year"." AND ".
+                    "MONTH(timestamp) = $i_month";
+
+             		if ( $day_start != -1 )
+             		{
+                		if ($i_month == $month_start)  $day_start2 = $day_start;  else  $day_start2 = 1;
+                		if ($i_month == $month_end)    $day_end2 = $day_end;      else  $day_end2 = 31;
+
+                		for ( $i_day = $day_start2; $i_day <= $day_end2; $i_day++ )
+                		{
+                  			if ( checkdate($i_month, $i_day, $i_year) )
+                  			{
+                    			$sql = "SELECT count(*) FROM event WHERE ".
+                           		"YEAR(timestamp) = $i_year" ." AND ".
+                           		"MONTH(timestamp) = $i_month" ." AND ".
+                           		"DAY(timestamp) = $i_day";
+
+                   
+                    			if ( $hour_start != -1 )
+                    			{
+                       				for ( $i_hour = $hour_start; $i_hour <= $hour_end; $i_hour++ )
+                       				{
+                           				$sql = "SELECT count(*) FROM event WHERE ".
+                                  		"YEAR(timestamp) = $i_year". " AND ".
+                                  		"MONTH(timestamp) = $i_month"." AND ".
+                                  		"DAY(timestamp) = $i_day"." AND ".
+                                  		"HOUR(timestamp) = $i_hour";
+
+                           				$this->StoreAlertNum($sql, $i_month."/".$i_day."/".$i_year." ".
+                                               $i_hour.":00:00 - ".$i_hour.":59:59", 
+                                               $xdata, $cnt, $min_threshold);
+                           				//StoreAlertNum($sql, $i_month."/".$i_day." ".
+                           				//                    $i_hour.":00 - ".$i_hour.":59",
+                           				//                    $xdata, $cnt, $min_threshold);
+                       				}   // end hour
+                    			}
+                    			else
+                        			$this->StoreAlertNum($sql, $i_month."/".$i_day."/".$i_year, 
+                                      $xdata, $cnt, $min_threshold);
+                  			}
+                		}   // end day
+             		}
+             		else
+               			$this->StoreAlertNum($sql, $i_month."/".$i_year, $xdata, $cnt, $min_threshold);
+         		}   	// end month
+      		}
+      		else
+        		$this->StoreAlertNum($sql, $i_year, $xdata, $cnt, $min_threshold);
+  		}   // end year
+
+  		return $cnt;
 		
 	}
 	
-	function getIpDataSet(&$xdata, $chart_type, $min_threshold, $criteria){
-		if ( $chart_type == 6 ) 
+	function getIpDataSet(&$xdata, $chart_type, $time_start, $time_end){
+		/*
+		 * 
+		 */
+		$isStart = $this->checkTime($time_start);
+		$isEnd = $this->checkTime($time_end);
+		
+		if($isStart == "1" && $isEnd == "1")
+		{
+			if ( $chart_type == 6 ) 
+      		 $sql = "SELECT DISTINCT ip_src, COUNT(iphdr.cid) ".
+      		 	"FROM iphdr, event ".
+          		"WHERE iphdr.sid = event.sid ".
+      		 	"AND iphdr.cid = event.cid ".
+      		 	"AND timestamp > "."'$time_start[3]-$time_start[2]-$time_start[1] "."$time_start[0]:00:00'".
+      		 	"AND timestamp < "."'$time_end[3]-$time_end[2]-$time_end[1] "."$time_end[0]:00:00'".
+      			"AND ip_src is NOT NULL ".
+          		"GROUP BY ip_src ORDER BY ip_src";
+      		 
+   			else if ($chart_type == 7)
+      		 $sql = "SELECT DISTINCT ip_dst, COUNT(iphdr.cid) ".
+             	"FROM iphdr, event ".
+          		"WHERE iphdr.sid = event.sid ".
+      		 	"AND iphdr.cid = event.cid ".
+      		 	"AND timestamp > "."'$time_start[3]-$time_start[2]-$time_start[1] "."$time_start[0]:00:00'".
+      		 	"AND timestamp < "."'$time_end[3]-$time_end[2]-$time_end[1] "."$time_end[0]:00:00'".
+      			"AND ip_dst is NOT NULL ".
+             	"GROUP BY ip_dst ORDER BY ip_dst";
+			
+			//print($sql);
+		}
+		else if($isStart == "1")
+		{
+			if ( $chart_type == 6 ) 
+      		 $sql = "SELECT DISTINCT ip_src, COUNT(iphdr.cid) ".
+      		 	"FROM iphdr, event ".
+          		"WHERE iphdr.sid = event.sid ".
+      		 	"AND iphdr.cid = event.cid ".
+          		"AND timestamp > "."'$time_start[3]-$time_start[2]-$time_start[1] "."$time_start[0]:00:00'".
+      			"AND ip_src is NOT NULL ".
+          		"GROUP BY ip_src ORDER BY ip_src";
+      		 
+   			else if ($chart_type == 7)
+      		 $sql = "SELECT DISTINCT ip_dst, COUNT(iphdr.cid) ".
+      		 	"FROM iphdr, event ".
+          		"WHERE iphdr.sid = event.sid ".
+      		 	"AND iphdr.cid = event.cid ".
+          		"AND timestamp > "."'$time_start[3]-$time_start[2]-$time_start[1] "."$time_start[0]:00:00'".
+      			"AND ip_src is NOT NULL ".
+             	"GROUP BY ip_dst ORDER BY ip_dst";
+			
+			//print($sql);
+		}
+		else if($isEnd == "1")
+		{
+			if ( $chart_type == 6 ) 
+      		 $sql = "SELECT DISTINCT ip_src, COUNT(iphdr.cid) ".
+      		 	"FROM iphdr, event ".
+          		"WHERE iphdr.sid = event.sid ".
+      		 	"AND iphdr.cid = event.cid ".
+          		"AND timestamp < "."'$time_end[3]-$time_end[2]-$time_end[1] "."$time_end[0]:00:00'".
+      			"AND ip_src is NOT NULL ".
+          		"GROUP BY ip_src ORDER BY ip_src";
+      		 
+   			else if ($chart_type == 7)
+      		 $sql = "SELECT DISTINCT ip_dst, COUNT(iphdr.cid) ".
+      		 	"FROM iphdr, event ".
+          		"WHERE iphdr.sid = event.sid ".
+      		 	"AND iphdr.cid = event.cid ".
+          		"AND timestamp < "."'$time_end[3]-$time_end[2]-$time_end[1] "."$time_end[0]:00:00'".
+      			"AND ip_src is NOT NULL ".
+             	"GROUP BY ip_dst ORDER BY ip_dst";
+			print($sql);
+		}
+		else
+		{
+			if ( $chart_type == 6 ) 
       		 $sql = "SELECT DISTINCT ip_src, COUNT(iphdr.cid) ".
              "FROM iphdr "." WHERE ip_src is NOT NULL ".
              "GROUP BY ip_src ORDER BY ip_src";
-   		else if ($chart_type == 7)
+   			else if ($chart_type == 7)
       		 $sql = "SELECT DISTINCT ip_dst, COUNT(iphdr.cid) ".
              	"FROM iphdr "." WHERE ip_dst is NOT NULL ".
              	"GROUP BY ip_dst ORDER BY ip_dst";
+			
+			//print($sql);
+		}
+		
 
    		$cnt = 0;
 		$result = $this->DB->Execute($sql);
@@ -479,5 +583,24 @@ class graph_data{
        	
        	return false;
 	}
+	function StoreAlertNum($sql, $label, &$xdata, &$cnt, $min_threshold)
+	{  
+		//print($sql);
+  		$result = $this->DB->Execute($sql);
+  		
+  		if($result){
+  			while ( $myrow = $result->FetchRow() )
+  			{
+     			if ( $myrow[0] >= $min_threshold )
+     			{
+        			$xdata [ $cnt ][0] = $label;
+        			$xdata [ $cnt ][1] = $myrow[0];
+     			}
+     			$cnt++;
+  			}
+  		}
+  	
+  }
+
 }
 ?>

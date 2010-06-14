@@ -17,7 +17,6 @@
          <OPTION VALUE=" "  '.chk_select($chart_type, " ").'>{ chart type }
          <OPTION VALUE="1" '.chk_select($chart_type, "1").'>Time (hour) vs. Number of Alerts
          <OPTION VALUE="2" '.chk_select($chart_type, "2").'>Time (day) vs. Number of Alerts
-         <OPTION VALUE="3" '.chk_select($chart_type, "3").'>Time (week) vs. Number of Alerts
          <OPTION VALUE="4" '.chk_select($chart_type, "4").'>Time (month) vs. Number of Alerts
          <OPTION VALUE="5" '.chk_select($chart_type, "5").'>Time (year) vs. Number of Alerts
          <OPTION VALUE="6" '.chk_select($chart_type, "6").'>Src. IP address vs. Number of Alerts
@@ -28,15 +27,6 @@
          <OPTION VALUE="11" '.chk_select($chart_type, "11").'>Src. TCP Port vs. Number of Alerts
          <OPTION VALUE="13" '.chk_select($chart_type, "13").'>Sensor vs. Number of Alerts
         </SELECT>';
-
-  // Do you need other periods? Simply add them!
-  echo '&nbsp;&nbsp;<B>Chart Period:</B>&nbsp;
-        <SELECT NAME="chart_interval">
-         <OPTION VALUE="0"  '.chk_select($chart_interval, "0").'>no period
-         <OPTION VALUE="7" '.chk_select($chart_interval, "7").'>7 (a week)
-         <OPTION VALUE="24" '.chk_select($chart_interval, "24").'>24 (whole day)
-         <OPTION VALUE="168" '.chk_select($chart_interval, "168").'>168 (24x7)
-        </SELECT><BR>';
 
   echo '&nbsp;&nbsp;<B>Size: (width x height)</B>
         &nbsp;<INPUT TYPE="text" NAME="width" SIZE=4 VALUE="'.$width.'">

@@ -34,8 +34,9 @@ echo $PAGE->getHeader('admin',$admin[39]);
 		<a href="?action=manage_user"><?php echo $admin[6]; ?></a><br />
 		<br />
 		<a href="?action=view_logs"><?php echo 'view logs'?></a><br />
+		<a href="?action=view_proto"><?php echo 'view proto'?></a><br />
 		<br />
-		<a href="?action=manage_var"><?php echo $admin[7]; ?></a><br />
+
 		<a href="?action=manage_rules"><?php echo 'rules management'; ?></a><br />
 		<br />
 		<a href="?action=info_system"><?php echo $admin[9]; ?></a><br />
@@ -54,8 +55,10 @@ echo $PAGE->getHeader('admin',$admin[39]);
 				case 'view_logs':
 					include('interfaces/common/view_logs.php');
 				break;
-				case 'manage_var':
-					include('interfaces/admin/manage_var.php');
+				
+				case 'view_proto':
+					include('interfaces/common/view_proto.php');	
+				break;
 				break;
 				case 'manage_rules':
 					include('interfaces/common/manage_rules.php');
