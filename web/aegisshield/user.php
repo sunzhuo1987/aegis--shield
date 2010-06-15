@@ -1,14 +1,13 @@
 <?php
 require_once('includes/config.php');
 
-//é˜²æ­¢æ¶æ„æˆ–æœªç™»å½•ç”¨æˆ·ç›´æŽ¥ä»Žæµè§ˆå™¨è°ƒç”¨æ“ä½œé¡µé¢
-if($_status != AUTH_LOGGED || !($_user_active['privilege']==USER)){
+//·ÀÖ¹¶ñÒâ»òÎ´µÇÂ¼ÓÃ»§Ö±½Ó´Óä¯ÀÀÆ÷µ÷ÓÃ²Ù×÷Ò³Ãæ
+if($_status != AUTH_LOGGED || $_user_active['privilege']!=USER){
 	header("Refresh: 0;URL=index.php");
 	exit();
 }
 
 //Load dictionary
-//$language_file='lang/'.$_user_active['language'].'/dictionary.php';
 $language_file='lang/en/dictionary.php';
 if (file_exists($language_file)){
 	require_once($language_file);
@@ -17,25 +16,26 @@ else{
 	exit('NO Dictionary!');
 }
 
-// è¾“å‡ºç½‘é¡µæ–‡ä»¶çš„å¤´éƒ¨
-echo $PAGE->getHeader('user',$admin[40]);
+echo $PAGE->getHeader('user',"User interface");
 ?>
 
 <div id="container">
 	<table id="header"><tr>
 	<td class="left"><?php echo $UTILITY->get_logo('admin'); ?></td>
-	<td class="right"><h3><?php echo $admin[1].' '.$_user_active['name'].' '.$_user_active['surname']; ?></h3><?php echo $admin[2]; ?>: <?php echo $admin[116]; ?><br />
+	<td class="right"><h3><?php echo $admin[1].' '.$_user_active['name'].' '.$_user_active['surname']; ?>
+	</h3><?php echo $admin[2]; ?>: <?php echo "User"; ?><br />
     <?php echo $admin[3]; ?>: <?php echo $SESSION->last_log(); ?></td>
 	</tr></table>
 
 	<table id="central"><tr>
 		<td id="menu">
-		<a href="user.php"><?php echo 'é¦–é¡µ'/*$admin[4]*/; ?></a><br />
+		<a href="user.php"><?php echo $admin[4]; ?></a><br />
 		<br />
-		<a href="?action=change_password"><?php echo 'ä¿®æ”¹å¯†ç '/*$admin[6]*/; ?></a><br />
+
+		<a href="?action=view_logs"><?php echo 'view logs'?></a><br />
+		<a href="?action=view_proto"><?php echo 'view proto'?></a><br />
 		<br />
-		<a href="?action=view_logs"><?php echo 'view logs'?></a>
-		<br />
+
 		<a href="?action=manage_rules"><?php echo 'rules management'; ?></a><br />
 		<br />
 		<a href="?action=logout"><?php echo $admin[10];?></a>
@@ -43,30 +43,19 @@ echo $PAGE->getHeader('user',$admin[40]);
 		<td id="navigation">
 		<?php
 			switch($_GET['action']){
-				case 'manage_user':
-					include('interfaces/admin/manage_user.php');
-				break;
 				case 'view_logs':
 					include('interfaces/common/view_logs.php');
+				break;
+				
+				case 'view_proto':
+					include('interfaces/common/view_proto.php');	
+				break;
 				break;
 				case 'manage_rules':
 					include('interfaces/common/manage_rules.php');
 				break;
 				default:
-					echo '<h4>'.$admin[155].'</h4>';
-					$n_users=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."users`");
-					$n_blocks=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."block_settings`");
-					$n_groups=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."groups`");
-					$n_plugins=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."plugins`");
-					$n_iptables=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."iptables_variables`");
-					echo '<div id="general_info">';
-					echo $admin[156].': '.$n_users[0].'<br />';
-					echo $admin[157].': '.$n_groups[0].'<br />';
-					echo $admin[158].': '.$n_blocks[0].'<br />';
-					echo $admin[159].': '.$n_plugins[0].'<br />';
-					echo $admin[160].': '.$n_iptables[0].'<br />';
-					echo $admin[150].': '.$SYSTEM_INFO->GetUptime().'<br />';
-					echo '</div>';
+					include('interfaces/common/general_info.php');
 			}
 		?>
 		</td>

@@ -46,21 +46,22 @@ CREATE TABLE IF NOT EXISTS `approto` (
 --
 
 CREATE TABLE IF NOT EXISTS `custom_rule` (
-  `id` int(11) default NULL,
+  `id` int(10) unsigned NOT NULL auto_increment,
   `type` int(11) default NULL,
   `rule` varchar(256) default NULL,
-  `proto` varchar(32) default NULL
+  `proto` varchar(32) default NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- 导出表中的数据 `custom_rule`
 --
 
-INSERT INTO `custom_rule` (`id`, `type`, `rule`, `proto`) VALUES
-(1, 1, '1_rule_test', ''),
-(2, 1, '2_rule_test', NULL),
-(3, 2, '3_rule_test', 'rule_L7_1'),
-(4, 2, '4_rule_test', 'rule_L7_2');
+INSERT INTO `custom_rule` (`type`, `rule`, `proto`) VALUES
+( 1, '1_rule_test', ''),
+( 1, '2_rule_test', NULL),
+( 2, '3_rule_test', 'rule_L7_1'),
+( 2, '4_rule_test', 'rule_L7_2');
 
 -- --------------------------------------------------------
 

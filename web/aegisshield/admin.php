@@ -1,6 +1,7 @@
 <?php
 require_once('includes/config.php');
 
+//防止恶意或未登录用户直接从浏览器调用操作页面
 if($_status != AUTH_LOGGED || $_user_active['privilege']!=ADMIN){
 	header("Refresh: 0;URL=index.php");
 	exit();
@@ -67,22 +68,7 @@ echo $PAGE->getHeader('admin',$admin[39]);
 					include('interfaces/admin/info_system.php');
 				break;
 				default:
-					/*
-					echo '<h4>'.$admin[155].'</h4>';
-					$n_users=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."users`");
-					$n_blocks=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."block_settings`");
-					$n_groups=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."groups`");
-					$n_plugins=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."plugins`");
-					$n_iptables=$DB->GetRow("SELECT COUNT(*) FROM `".DB_PREFIX."iptables_variables`");
-					echo '<div id="general_info">';
-					echo $admin[156].': '.$n_users[0].'<br />';
-					echo $admin[157].': '.$n_groups[0].'<br />';
-					echo $admin[158].': '.$n_blocks[0].'<br />';
-					echo $admin[159].': '.$n_plugins[0].'<br />';
-					echo $admin[160].': '.$n_iptables[0].'<br />';
-					echo $admin[150].': '.$SYSTEM_INFO->GetUptime().'<br />';
-					echo '</div>';
-					*/
+
 					include('interfaces/common/general_info.php');
 			}
 		?>

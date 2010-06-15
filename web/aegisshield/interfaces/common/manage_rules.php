@@ -15,6 +15,7 @@ switch($_GET['type']){
 	 * Ìí¼Ó¹æÔò
 	 */
 	case 'add_rule':
+		require_once('interfaces/common/add_rule.php');
 ?>
 <table>
 </table>

@@ -107,7 +107,7 @@ class user {
 			return $GLOBALS['admin'][46].'<br />'.$GLOBALS['admin'][45];
 		}
 		
-		$this->DB->Execute("INSERT INTO `".DB_PREFIX."users` (`username`, `passwd`, `privilege`, `name`, `surname`, `phone`, `fax`, `mobile_phone`, `email`, `language`, `city`, `nation`, `place`, `zip_code`, `address`, `group_id`, `account`, `created`) VALUES ('".$user_array['username']."', '".md5($user_array['passwd'])."', '".$user_array['privilege']."', '".$user_array['name']."', '".$user_array['surname']."', '".$user_array['phone']."', '".$user_array['fax']."', '".$user_array['mobile_phone']."', '".$user_array['email']."', '".$user_array['language']."', '".$user_array['city']."', '".$user_array['nation']."', '".$user_array['place']."', '".$user_array['zip_code']."', '".$user_array['address']."', '".$user_array['group_id']."', '".$user_array['account']."', NOW())");
+		$this->DB->Execute("INSERT INTO `".DB_PREFIX."users` (`username`, `passwd`, `privilege`, `name`, `surname`, `email`,, `created`) VALUES ('".$user_array['username']."', '".md5($user_array['passwd'])."', '".$user_array['privilege']."', '".$user_array['name']."', '".$user_array['surname']."', '"."', '".$user_array['email']."', '"."', NOW())");
 		
 		return $GLOBALS['admin'][47];
 	}
@@ -162,7 +162,6 @@ class user {
 			$this->DB->Execute("DELETE FROM `".DB_PREFIX."users` WHERE `id`='$id'");
 			$this->DB->Execute("DELETE FROM `".DB_PREFIX."ip_history` WHERE `user_id`='$id'");
 			$this->DB->Execute("DELETE FROM `".DB_PREFIX."sessions` WHERE `user_id`='$id'");
-			$this->DB->Execute("DELETE FROM `".DB_PREFIX."user_blocks` WHERE `user_id`='$id'");
 			return $BLOBALS['admin'][100];
 		}
 		else{
