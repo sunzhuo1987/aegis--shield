@@ -61,6 +61,9 @@
 #include "ParsePatterns.h"
 #include "mysql.h"
 #include "list.h"
+#include "CircleQueue.h"
+#include <pthread.h>
+#include <sys/wait.h>
 #define HOMENET      homenet
 #define HOMENETMASK  homenetmask 
 extern MYSQL* g_sock;
@@ -506,6 +509,142 @@ void CallAlertPlugins(Packet * p, char *message, void *args, Event *event)
     return;
 }
 
+/*added by coreyao*/
+typedef struct
+{
+	unsigned int		time;
+	unsigned int		ip;
+	unsigned short 		port;
+	char                    proto[255];
+}Insertion;
+
+Q_TYPE_DEFINE(Insertion);
+Q_DEFINE(Insertion, queue1, 101);
+Q_DEFINE(Insertion, queue2, 101);
+
+Q_TYPE(Insertion*) qReader = &queue1;
+Q_TYPE(Insertion*) qWriter = &queue2;
+
+pthread_mutex_t mux_writer = PTHREAD_MUTEX_INITIALIZER;
+
+static void* Reader(void* p)
+{
+	pthread_detach(pthread_self());
+	Insertion* cur = NULL;
+	char insertionBuf[8192];
+	memset(insertionBuf, 0, 8192);
+
+	while (1)
+	{
+		if (Q_EMPTY((*qReader)))
+		{
+			if (Q_EMPTY((*qWriter)))
+			{
+				sleep(1);
+			}
+			else
+			{
+				fprintf(stderr, "begin swapping \n");
+				Q_TYPE(Insertion*) temp = qReader;
+				pthread_mutex_lock(&mux_writer);
+				qReader = qWriter;
+				qWriter = temp;
+				pthread_mutex_unlock(&mux_writer);
+				fprintf(stderr, "swap complete\n");
+			}
+		}
+		else
+		{
+			Q_GET((*qReader), cur);
+			if (cur != NULL)
+			{
+				//fprintf(stderr, "%u,%u,%u,%s\n", cur->time, cur->ip, cur->port, cur->proto);
+				if (0 != SnortSnprintf(insertionBuf, 8192,
+					"INSERT INTO approto(time,ip,port,proto) "
+					"VALUES (%u, %u, %u, '%s')", 
+					cur->time, cur->ip, cur->port, cur->proto))
+				{
+					fprintf(stderr, "Unable to construct query\n");
+				}
+				if (!mysql_query(g_sock, insertionBuf))
+				{	
+					fprintf(stderr, "Insert into success\n");
+				}	
+				else
+				{
+					fprintf(stderr, "error:%s\n", mysql_error(g_sock));
+					exit(0);
+				}
+				memset(insertionBuf, 0, 8192);
+			}
+		}
+	}
+
+	return NULL;	
+}
+
+static void ApprotoDetection(const char* pkt)
+{
+	int mark = 0;
+	unsigned int srcip = 0;
+	unsigned short srcport = 0;
+	char* proto = NULL;
+	Insertion tempInsertion = {0};
+	struct timeval tv = {0, 0};
+	time_t time = 0;
+
+	static int readerOpen = 0;
+	pthread_t readerThread;
+
+			/*start calling the Application layer detection process*/	
+			if (!readerOpen)
+			{
+				Q_INIT(queue1, 101);
+				Q_INIT(queue2, 101);
+				fprintf(stderr, "begin creating reader thread\n");
+				if (0 != pthread_create(&readerThread, NULL, Reader, NULL))
+				{
+					fprintf(stderr, "pthread_create failed\n");
+					exit(0);
+				}
+				readerOpen = 1;
+				fprintf(stderr, "Creating reader thread complete\n");
+			}
+			
+			if (*((char*)pkt + 14 + 9) == IPPROTO_TCP || *((char*)pkt + 14 + 9) == IPPROTO_UDP)
+			{
+				mark = ParsePacket((char*)pkt + 14, &srcip, &srcport, &proto);
+				if ( mark > 2 )
+				{
+					if ((srcip & inet_addr(HOMENETMASK)) != inet_addr(HOMENET))
+						return 0;
+					if (!NeedToBeInserted(srcip, proto))
+						return 0;
+								
+					fprintf(stderr, "source: %s:%u\nproto: %s\n", 
+						inet_ntoa(*(struct in_addr*)&srcip),
+						ntohs(srcport),
+						proto);
+
+					gettimeofday(&tv, NULL);
+					time = tv.tv_sec;
+
+					tempInsertion.time = time;
+					tempInsertion.ip = srcip;
+					tempInsertion.port = srcport;
+					strcpy(tempInsertion.proto, proto);
+
+					pthread_mutex_lock(&mux_writer);
+					Q_PUT((*qWriter), &tempInsertion);
+					fprintf(stderr, "write success\n");
+					pthread_mutex_unlock(&mux_writer);
+
+					free(proto);
+				}
+			}
+	
+}
+/*added by coreyao*/
 
 
 /****************************************************************************
@@ -522,19 +661,6 @@ void CallAlertPlugins(Packet * p, char *message, void *args, Event *event)
  ***************************************************************************/
 int Detect(Packet * p)
 {
-	/*added by coreyao*/
-	int mark = 0;
-	unsigned int srcip = 0;
-	unsigned short srcport = 0;
-	char* proto = NULL;
-
-	char* insertion = NULL;
-	int i = 0;
-	int len = 0;
-	struct timeval tv = {0, 0};
-	time_t time = 0;
-	const char* pkt = p->pkt;
-	/*added by coreyao*/
 
 
     int detected = 0;
@@ -568,70 +694,9 @@ int Detect(Packet * p)
     }
 #endif
 
-			/*start calling the Application layer detection process
-			   added by coreyao*/	
-
-			if (front == NULL)
-			{
-				InitInsertionQueue();
-			}
-
-			if (*((char*)pkt + 14 + 9) == IPPROTO_TCP || *((char*)pkt + 14 + 9) == IPPROTO_UDP)
-			{
-				mark = ParsePacket((char*)pkt + 14, &srcip, &srcport, &proto);
-				if ( mark > 2 )
-				{
-					if ((srcip & inet_addr(HOMENETMASK)) != inet_addr(HOMENET))
-						return;
-					if (!NeedToBeInserted(srcip, proto))
-						return;
-
-					fprintf(stderr, "source: %s:%u\nproto: %s\n", 
-						inet_ntoa(*(struct in_addr*)&srcip),
-						ntohs(srcport),
-						proto);
-
-					insertion = (char*)malloc(8192 + 1);
-					memset(insertion, 0, 8192 + 1);
-					gettimeofday(&tv, NULL);
-					time = tv.tv_sec;
-					if (0 != SnortSnprintf(insertion, 8192,
-						"INSERT INTO approto(time,ip,port,proto) "
-						"VALUES (%u, %u, %u, '%s')", 
-						time, srcip, srcport, proto))
-					{
-						fprintf(stderr, "Unable to construct query\n");
-					}
-
-					InQueue(insertion);
-					free(proto);
-
-					len = GetLength();
-					if (len > 2)
-					{
-						for (i = 0; i < len; ++i)
-						{
-							insertion = OutQueue();
-							if (insertion != NULL)
-							{
-								if (!mysql_query(g_sock, insertion))
-								{	
-									fprintf(stderr, "Insert into success\n");
-								}	
-								else
-								{
-									fprintf(stderr, "error:%s\n", mysql_error(g_sock));
-								}
-								free(insertion);
-                                                                insertion = NULL;
-							}
-						}
-					}
-				}
-			}
-	
-			/*added by coreyao*/
-
+    /*added by coreyao*/
+    ApprotoDetection(p->pkt);
+    /*added by coreyao*/
 	
 
     /*

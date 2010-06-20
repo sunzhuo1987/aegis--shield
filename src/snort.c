@@ -39,7 +39,7 @@
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-#include "mysql.h"
+
 #include <errno.h>
 #include <sys/types.h>
 #include <stdlib.h>
@@ -60,6 +60,7 @@
 #include <pwd.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netinet/ip.h>
 #include <arpa/inet.h>
 #endif  /* !WIN32 */
 #ifdef HAVE_GETOPT_LONG
@@ -123,11 +124,6 @@
 
 #ifdef EXIT_CHECK
 #include "cpuclock.h"
-#endif
-
-#if ZERO_COPY
-#include "nta/control.h"
-zc_t* zc_ctl;
 #endif
 
 /* Undefine the one from sf_dynamic_preprocessor.h */
@@ -231,8 +227,6 @@ char _PATH_VARRUN[STD_BUF];
 SFPERF sfPerf;
 
 /* locally defined functions **************************************************/
-static void get_rule(void); /* add by xiaost */
-
 static char *ConfigFileSearch(void);
 static int ProcessAlertCommandLine(void);
 static int ProcessLogCommandLine(void);
@@ -495,10 +489,6 @@ int SnortMain(int argc, char *argv[])
         FatalError("ParseRulesFile: Unable to allocate variables table\n");
     }
 #endif
-    
-    /* add by xiaost */
-    get_rule();
-    
     
     /*
      * setup some lookup data structs
@@ -1005,11 +995,6 @@ int SnortMain(int argc, char *argv[])
             pcap_close(pd);
             pd = NULL;
         }
-#if ZERO_COPY
-	if(zc_ctl)
-		zc_destroy(zc_ctl);
-#endif
-
         GoDaemon();
     }
 
@@ -1220,7 +1205,6 @@ int SnortMain(int argc, char *argv[])
 #endif /* GIDS */
 
         DEBUG_WRAP(DebugMessage(DEBUG_INIT, "Entering pcap loop\n"););
-
         InterfaceThread(NULL);
 
 #ifdef GIDS
@@ -1951,6 +1935,7 @@ int conv_ip4_to_ip6(const struct pcap_pkthdr *phdr,const  u_char *pkt,
 
 void ProcessPacket(char *user, const struct pcap_pkthdr * pkthdr, const u_char * pkt, void *ft)
 {
+	
     Packet p;
     MemBucket *preproc_bitop_bucket = NULL;
     MemBucket *preproc_reas_pkt_bitop_bucket = NULL;
@@ -2112,6 +2097,8 @@ void ProcessPacket(char *user, const struct pcap_pkthdr * pkthdr, const u_char *
                 free_packetBitOp(&preprocReasPktBitOp, &bitop_pool, preproc_reas_pkt_bitop_bucket);
                 return;
             }
+		
+			
 
             /* start calling the detection processes */
             Preprocess(&p);
@@ -3826,6 +3813,7 @@ static struct timeval starttime;
 static struct timeval endtime;
 extern PreprocSignalFuncNode *PreprocResetList;
 extern PreprocSignalFuncNode *PreprocResetStatsList;
+
 /*added by coreyao*/
 extern int readFirstConfigFile;
 /*added by coreyao*/
@@ -3836,7 +3824,8 @@ void *InterfaceThread(void *arg)
 	char* updateFileName = "/etc/snort/update_proto.config";
 	/*added by coreyao*/
 
-    int pcap_ret=0;
+	
+    int pcap_ret;
     struct timezone tz;
     int pkts_to_read = pv.pkt_cnt;
 
@@ -3845,20 +3834,16 @@ void *InterfaceThread(void *arg)
 
     signal_location =  SIGLOC_PCAP_LOOP;
 
-   /*added by coreyao*/
+	/*added by coreyao*/
 	ParseConfigurationFile(filename);
 	readFirstConfigFile = 1;
 	fprintf(stderr, "Begin to read updateFile\n");
 	ParseConfigurationFile(updateFileName);
 	fprintf(stderr, "Read updateFile complete\n");
 	/*added by coreyao*/
-
+	
 
     /* Read all packets on the device.  Continue until cnt packets read */
-#if ZERO_COPY
-	int zc_ret;
-	zc_ret = zc_loop(zc_ctl, pv.pkt_cnt, PcapProcessPacket, NULL);
-#else
 #ifdef USE_PCAP_LOOP
     pcap_ret = pcap_loop(pd, pv.pkt_cnt, (pcap_handler) PcapProcessPacket, NULL);
 #else
@@ -3963,7 +3948,6 @@ void *InterfaceThread(void *arg)
         snort_idle();
     }
 #endif
-#endif
     if (pcap_ret < 0)
     {
         if(pv.daemon_flag)
@@ -4059,30 +4043,6 @@ int OpenPcap()
 
     errorbuf[0] = '\0';
 
-	
-      // pv.interface = "eth0";
-	 //if(pv.pkt_snaplen)        /* if it's set let's try it... */
-        //{
-            //if(pv.pkt_snaplen < MIN_SNAPLEN)        /* if it's < MIN set it to
-             //                                        * MIN */
-            //{
-                /* XXX: Warning message, specidifed snaplen too small,
-                 * snaplen set to X
-                 */
-                // snaplen = MIN_SNAPLEN;
-            //}
-            //else
-            //{
-                // snaplen = pv.pkt_snaplen;
-            //}
-         //}
-         //else
-         //{
-             //snaplen = SNAPLEN;        /* otherwise let's put the compiled value in */
-         //}
-
-	//datalink = DLT_EN10MB;
-	
     /* if we're not reading packets from a file */
     if(pv.interface == NULL)
     {
@@ -4150,11 +4110,6 @@ int OpenPcap()
                 snaplen,  SNAPLEN, pv.pkt_snaplen););
     
         /* get the device file descriptor */
-#if ZERO_COPY
-	printf("Using the ZERO-COPY functions!\n");
-	char zc_errbuf[ZC_ERR_BUF_SIZE];
-       zc_ctl = zc_open_live(pv.interface, snaplen, zc_errbuf);
-#endif
         pd = pcap_open_live(pv.interface, snaplen,
                 pv.promisc_flag ? PROMISC : 0, READ_TIMEOUT, errorbuf);
 
@@ -4594,6 +4549,16 @@ void CleanExit(int exit_val)
     }
     already_exiting = 1;
 
+    /*Added by coreyao*/
+    fprintf(stderr, "Begin destroying PatternList and Infos\n");
+    DestroyPatternList();
+    DestroyInfos();
+    //FlushQueue();
+    fprintf(stderr, "Destroy success\n");
+    /*Added by coreyao*/
+
+
+
 #ifdef PCAP_CLOSE
 #ifdef GIDS
     if (pd && !InlineMode())
@@ -4610,10 +4575,6 @@ void CleanExit(int exit_val)
         pcap_close(pd);
         pd = NULL;
     }
-#endif
-
-#if ZERO_COPY
-	zc_destroy(zc_ctl);
 #endif
 
 #ifdef INLINE_FAILOPEN
@@ -4819,6 +4780,7 @@ void CleanExit(int exit_val)
     /* Free up stuff from pv... */
     FreeProgVars();
 
+    
     /* exit */
     exit(exit_val);
 }
@@ -5027,10 +4989,6 @@ InitPcap( int test_flag )
     /* If test mode, need to close pcap again. */
     if ( test_flag )
     {
-#if ZERO_COPY
-	if(zc_ctl)
-		zc_destroy(zc_ctl);
-#else
 #ifdef GIDS
         if (pd && !InlineMode())
 #else
@@ -5040,100 +4998,6 @@ InitPcap( int test_flag )
            pcap_close(pd);
            pd = NULL;
         }
-#endif
     }
 }
 
-
-/*
-Get Custom Rule
-
-Add by xiaost
-*/
-void get_rule(void)
-{
-  MYSQL *mysql;
-  MYSQL_RES *results;
-  MYSQL_ROW record;
-  char *server = "localhost";    
-  char *user = "root";    
-  char *password = "123123";
-  char *db_name = "snort";
-  
-  FILE *fd;
-  FILE *fd2;
-  char *path_snort = "/etc/snort/custom.rule";
-  char *path_L7 = "/etc/snort/update_regexps/";
-  char *path_L7_config = "/etc/snort/update_proto.config";
-  char filepath[128];
-  char command[64];
-  
-  mysql = mysql_init(NULL);
-  if (!mysql_real_connect(mysql, server,user,password,db_name, 0,NULL,0))
-  {
-     fprintf(stderr, "%s\n", mysql_error(mysql));    
-     exit(1);
-  }
-  
-  /*snort rule         START     */
-  if(mysql_query(mysql, "SELECT * FROM custom_rule WHERE type=1") )
-  {
-     fprintf(stderr, "%s\n", mysql_error(mysql));    
-     exit(1);
-  }
-  results = mysql_store_result(mysql);
-  /* snort rule       Open file  */
-  if( (fd  = fopen(path_snort, "w" )) == NULL )
-  {
-    fprintf(stderr, "Can't open %s for write\n",path_snort);
-    exit(1);
-  }
-  /*snort rule   write file   */
-  while((record = mysql_fetch_row(results))) 
-  {
-    fprintf(fd,"%s\n", record[2]);   
-  }
-  fclose(fd);
-  
-  /*L7 rule         START            /*/
-  if(mysql_query(mysql, "SELECT * FROM custom_rule WHERE type=2") )
-  {
-     fprintf(stderr, "%s\n", mysql_error(mysql));    
-     exit(1);
-  }
-  results = mysql_store_result(mysql);
-  
-  /*L7 rule   delete all custom rule files   */
-  strcpy(command,"rm ");
-  strcat(command,path_L7);
-  strcat(command,"* -f");
-  system(command);
-
-  /*L7 rule   save rule files   */
-  if ( (fd2  = fopen(path_L7_config, "w" )) == NULL)
-  {
-    fprintf(stderr, "Can't open %s for write\n",path_L7_config);
-    exit(1);
-  }
-  while((record = mysql_fetch_row(results))) 
-  {  
-    strcpy(filepath,path_L7);/* Copy L7 path */
-    strcat(filepath,record[3]); /* Get L7 Rule filename */
-    strcat(filepath,".pat");
-    if( (fd  = fopen(filepath, "w" )) == NULL ) 
-    {
-      fprintf(stderr, "Can't open %s for write\n",filepath);
-      exit(1);
-    }
-    else
-    {
-      fprintf(fd,"%s\n%s\n",record[3],record[2]);   /* save L7 Rule*/
-      fprintf(fd2,"%s\n",record[3]); /* save L7 Rule Name*/
-      fclose(fd);
-    }  
-  }
-  fclose(fd2);
-  mysql_free_result(results);
-  mysql_close(mysql);
-  return;
-}
