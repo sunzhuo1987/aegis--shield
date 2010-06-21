@@ -464,7 +464,6 @@ void get_rule(DatabaseData * db)
   }
   fclose(fd2);
   mysql_free_result(results);
-  mysql_close(db->m_sock);
   return;
 }
 /* end by xiaost*/

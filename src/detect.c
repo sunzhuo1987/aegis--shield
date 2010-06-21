@@ -32,6 +32,10 @@
 #include "config.h"
 #endif
 
+/* add by xiaost , start */
+#include <omp.h>
+/* add by xiaost , end */
+
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -646,6 +650,83 @@ static void ApprotoDetection(const char* pkt)
 }
 /*added by coreyao*/
 
+/****************************************************************************
+ * Add by xiaost
+ * Function: as2_get_affinity_cpus(int node,int* start,int* end)
+ *
+ * Purpose: get the CPUs to as2_set_affinity
+ *
+ * Arguments: node , 1 for snort detect , 2 for L7 detect
+ *                     start ,  return the 1st CPU to set affinity
+ *                     end ,   return the last CPU to set affinity
+ *
+ *
+ ***************************************************************************/
+void as2_get_affinity_cpus(int node,int* start,int* end)
+{
+  int cpu_num = omp_get_num_procs();
+  switch(node)
+  {
+  	case 1:
+	if(cpu_num=2)
+	{
+	 *start = 2;
+	 *end = 2;
+	}
+	else if(cpu_num=3)
+	{
+	 *start = 2;
+	 *end = 3;
+	}
+	else if(cpu_num=4)
+	{
+	 *start = 2;
+	 *end = 4;
+	}		
+	break;
+	case 2:
+	 *start = 1;
+	 *end = 1;
+	break;
+  }
+}
+
+
+/****************************************************************************
+ * Add by xiaost
+ * Function: as2_set_affinity(int node)
+ *
+ * Purpose: Apply the affinity by node , tide the thread to the CPU
+ *
+ * Arguments: node , 1 for snort detect , 2 for L7 detect
+ *
+ *
+ ***************************************************************************/
+void as2_set_affinity(int node)
+{
+  int i,start,end;
+  kmp_affinity_mask_t mask;
+  int cpu_num = omp_get_num_procs();  
+  
+  if(cpu_num<2)/*one cpu, not set affinity*/
+  	return;
+  
+  as2_get_affinity_cpus(node,&start,&end);
+  
+  kmp_create_affinity_mask(&mask);  
+  
+  for(i=start-1;i<end;++i)
+  {
+    kmp_set_affinity_mask_proc(i, &mask); 
+  }
+  
+  if (kmp_set_affinity(&mask) != 0)
+  {
+  	FatalError("Can't set the affinity : %d\n",node);
+  }
+}
+
+
 
 /****************************************************************************
  *
@@ -694,20 +775,24 @@ int Detect(Packet * p)
     }
 #endif
 
-    /*added by coreyao*/
-    ApprotoDetection(p->pkt);
-    /*added by coreyao*/
-	
-
-    /*
-    **  This is where we short circuit so 
-    **  that we can do IP checks.
-    */
+/* add by xiaost :  parallel */
+#pragma omp parallel sections 
+{
+#pragma omp section
+ {  
+    as2_set_affinity(2);
+    ApprotoDetection(p->pkt);/*added by coreyao*/
+ }
+#pragma omp section 
+ {
+ 	as2_set_affinity(1);
     PREPROC_PROFILE_START(detectPerfStats);
     detected = fpEvalPacket(p);
     PREPROC_PROFILE_END(detectPerfStats);
-
+ }
+}
     return detected;
+
 }
 
 void TriggerResponses(Packet * p, OptTreeNode * otn)
