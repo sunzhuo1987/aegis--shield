@@ -393,6 +393,82 @@ void DatabaseInit(char *args)
 
 }
 
+/* add by xiaost */
+void get_rule(DatabaseData * db)
+{
+
+  MYSQL_RES *results;
+  MYSQL_ROW record;
+  
+  FILE *fd;
+  FILE *fd2;
+  char *path_snort = "/etc/snort/custom.rule";
+  char *path_L7 = "/etc/snort/update_regexps/";
+  char *path_L7_config = "/etc/snort/update_proto.config";
+  char filepath[128];
+  char command[64];
+  
+  
+  /*snort rule         START     */
+  if(mysql_query(db->m_sock, "SELECT * FROM custom_rule WHERE type=1") )
+  {
+     FatalError("%s\n", mysql_error(mysql));
+  }
+  results = mysql_store_result(db->m_sock);
+  /* snort rule       Open file  */
+  if( (fd  = fopen(path_snort, "w" )) == NULL )
+  {
+    FatalError("Can't open %s for write\n",path_snort);
+  }
+  /*snort rule   write file   */
+  while((record = mysql_fetch_row(results))) 
+  {
+    fprintf(fd,"%s\n", record[2]);   
+  }
+  fclose(fd);
+  
+  /*L7 rule         START            /*/
+  if(mysql_query(db->m_sock, "SELECT * FROM custom_rule WHERE type=2") )
+  {
+     FatalError("%s\n", mysql_error(mysql)); 
+  }
+  mysql_free_result(results);
+  results = mysql_store_result(db->m_sock);
+  
+  /*L7 rule   delete all custom rule files   */
+  strcpy(command,"rm ");
+  strcat(command,path_L7);
+  strcat(command,"* -f");
+  system(command);
+
+  /*L7 rule   save rule files   */
+  if ( (fd2  = fopen(path_L7_config, "w" )) == NULL)
+  {
+    FatalError("Can't open %s for write\n",path_L7_config);
+  }
+  while((record = mysql_fetch_row(results))) 
+  {  
+    strcpy(filepath,path_L7);/* Copy L7 path */
+    strcat(filepath,record[3]); /* Get L7 Rule filename */
+    strcat(filepath,".pat");
+    if( (fd  = fopen(filepath, "w" )) == NULL ) 
+    {
+      FatalError("Can't open %s for write\n",filepath);
+    }
+    else
+    {
+      fprintf(fd,"%s\n%s\n",record[3],record[2]);   /* save L7 Rule*/
+      fprintf(fd2,"%s\n",record[3]); /* save L7 Rule Name*/
+      fclose(fd);
+    }  
+  }
+  fclose(fd2);
+  mysql_free_result(results);
+  mysql_close(db->m_sock);
+  return;
+}
+/* end by xiaost*/
+
 void DatabaseInitFinalize(int unused, void *arg)
 {
     DatabaseData *data = (DatabaseData *)arg;
@@ -565,7 +641,7 @@ void DatabaseInitFinalize(int unused, void *arg)
         FatalError("Database: Unable to construct query - output error or truncation\n");
 
     Connect(data);
-
+	
     /* get password out of memory since we only need it for Connect */
     if (data->password != NULL)
     {
@@ -576,6 +652,7 @@ void DatabaseInitFinalize(int unused, void *arg)
             data->password++;
         }
     }
+	get_rule(data);/* add by xiaost */
 
     data->shared->sid = Select(select_sensor_id,data);
     if(data->shared->sid == 0)
