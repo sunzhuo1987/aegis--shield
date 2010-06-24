@@ -4553,7 +4553,7 @@ void CleanExit(int exit_val)
     fprintf(stderr, "Begin destroying PatternList and Infos\n");
     DestroyPatternList();
     DestroyInfos();
-    FlushQueue();
+    //FlushQueue();
     fprintf(stderr, "Destroy success\n");
     /*Added by coreyao*/
 

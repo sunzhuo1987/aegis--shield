@@ -115,7 +115,7 @@ static char* FindPatternFile(char* protoName)
 	else
 		c = sprintf(filename, "/etc/snort/update_regexps/%s.pat", protoName);
 
-	fprintf(stderr, "%s\n", filename);
+	//fprintf(stderr, "%s\n", filename);
 	if (c > MAX_FILENAME_LEN)
 	{
 		fprintf(stderr, "Filename beginning with %s is too long\n", filename);

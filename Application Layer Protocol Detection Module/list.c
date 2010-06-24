@@ -66,7 +66,7 @@ void DestroyPatternList()
 	patternHeader = NULL;
 }
 
-void InitInsertionQueue()
+/*void InitInsertionQueue()
 {
 	front = (struct InsertionNode*)malloc(sizeof(struct InsertionNode));
 	front->insertionStatement = NULL;
@@ -140,7 +140,7 @@ void FlushQueue()
 
 	free(front);
 	front = NULL;
-}
+}*/
 
 /*void InitPairList()
 {

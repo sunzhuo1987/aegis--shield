@@ -89,7 +89,7 @@ void DestroyInfos()
 	}
 }
 
-static void CleanConnections()
+/*static void CleanConnections()
 {
 	c_iterator iter = c_map_begin(&conns);
 	c_iterator end = c_map_end(&conns);
@@ -113,7 +113,7 @@ static void CleanConnections()
 			ITER_INC(iter);
 		}
 	}
-}
+}*/
 
 
 static char* MakeConnectionKey(char* buffer, int reverse)
@@ -216,17 +216,18 @@ int ParsePacket(char* buffer, unsigned int* srcip, unsigned short* srcport, char
 				newPair->first = (void*)malloc(12);
 				memcpy(newPair->first, key, 12);
 
-				if (c_map_size(&conns) >= MAX_CONNECTIONS)
+				/*if (c_map_size(&conns) >= MAX_CONNECTIONS)
 				{
 					CleanConnections();
 					if (c_map_size(&conns) >= MAX_CONNECTIONS)
 						c_map_clear(&conns);
-				}
+				}*/
 
 				free(key);
 				key = NULL;
 
 				c_map_insert(&conns, newPair);
+				//fprintf(stderr, "Insert one connection\n");
 			}
 		}
 
@@ -256,6 +257,7 @@ int ParsePacket(char* buffer, unsigned int* srcip, unsigned short* srcport, char
 				}
 				else if (conn->num_packets <= MAX_PACKET)
 				{
+					//fprintf(stderr, "Begin to match regexp\n");
 					mark = Classify(data, datalen, proto);
 					conn->mark = mark;
 					if (conn->mark > 2)
@@ -263,11 +265,24 @@ int ParsePacket(char* buffer, unsigned int* srcip, unsigned short* srcport, char
 						*srcip = *(unsigned int*)conn->key;
 						*srcport = *(unsigned short*)((char*)conn->key + 4);
 					}
+					//fprintf(stderr, "Match regexp complete\n");
+
 				}
 				else
 				{
 					mark = NO_MATCH;
-					conn->mark = mark;
+					//conn->mark = mark;
+
+					c_iterator target;
+					c_iterator map_end;
+					target = c_map_find(&conns, conn->key);
+					map_end = c_map_end(&conns);
+
+					if (!ITER_EQUAL(map_end, target))
+					{
+						//fprintf(stderr, "erase one connection\n");
+						c_map_erase(&conns, target);
+					}
 				}
 			}
 		}

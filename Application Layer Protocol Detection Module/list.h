@@ -20,7 +20,7 @@ extern void DeletePattern(char* name);
 extern void DestroyPatternList();
 
 
-struct InsertionNode
+/*struct InsertionNode
 {
 	char* insertionStatement;
 	struct InsertionNode* next;
@@ -33,5 +33,6 @@ extern void InQueue(char* insertion);
 extern char* OutQueue();
 extern unsigned int GetLength();
 extern void FlushQueue();
+*/
 
 #endif
