@@ -1,0 +1,1 @@
+<?php	require_once('interfaces/common/proto_display.php'); ?>

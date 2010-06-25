@@ -136,7 +136,6 @@ $user_selected=$USER->get_user($_GET['id']);
 ?>
 <table id="manage_user" class="default_table">
   <tr>
-	<th>&nbsp;</th>
     <th><?php echo $admin[21]; ?></th>
     <th><?php echo $admin[23]; ?></th>
     <th><?php echo $admin[25]; ?></th>

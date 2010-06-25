@@ -19,6 +19,7 @@ require_once('classes/setting_class.php');
 require_once('classes/alerts_class.php');
 require_once('classes/system_info_class.php');
 require_once('classes/graph_data_class.php');
+require_once('classes/approto_class.php');
 
 //Do not change
 define('AUTH_NOT_LOGGED', 0);
@@ -57,6 +58,7 @@ $RULE = new rule(&$DB);
 $LANGUAGE = new language();
 $ALERTS = new alerts(&$DB);
 $GRAPH_DATA = new graph_data(&$DB);
+$APPROTO = new approto(&$DB);
 $SYSTEM_INFO = new system_info();
 
 

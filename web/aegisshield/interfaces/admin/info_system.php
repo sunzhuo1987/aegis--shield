@@ -1,7 +1,6 @@
 <h4><?php echo $admin[9]; ?></h4>
 <?php
 echo '<h5>'.$admin[148].'</h5><div class="small left" id="info_system">';
-echo $admin[149].': '.$SETTING->get_value('iptablesweb_version').'<br />';
 echo $admin[150].': '.$SYSTEM_INFO->GetUptime().'<br />';
 echo $admin[151].': '.date("l dS of F Y h:i:s A").'<br />';
 echo $admin[152].': '.phpversion().'<br />';
