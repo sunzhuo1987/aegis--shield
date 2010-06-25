@@ -125,6 +125,13 @@ $user_selected=$USER->get_user($_GET['id']);
 
 <?php
 	break;
+	case 'add_user':
+?>
+<?php
+	require_once('interfaces/admin/add_user.php'); 
+?>
+<?php
+	break;
 	default:
 ?>
 <table id="manage_user" class="default_table">
@@ -140,14 +147,16 @@ $user_selected=$USER->get_user($_GET['id']);
 	foreach($users_id as $value){
 		$user_selected=$USER->get_user($value['id']);
 		//$group_selected=$GROUP->get_group($user_selected['group_id']);
-		echo '<tr><td>'.$USER->get_account_img($user_selected['account'])
-		.'</td><td>'.htmlspecialchars($user_selected['username'])
+		echo '</td><td>'.htmlspecialchars($user_selected['username'])
 		.'</td><td>'.htmlspecialchars($user_selected['email'])
 		.'</td><td>'.$USER->get_privilege_name($user_selected['privilege'])
 		.'</td><td>'.$USER->option_list($user_selected['id'])
 		.'</td></tr>';
 	}
 ?>
+<tr><td>
+<a href="admin.php?action=manage_user&type=add_user"><img src="images/add.png", alt="Add User", title="Add User" /></a>
+</td></tr>
 </table>
 
 <?php

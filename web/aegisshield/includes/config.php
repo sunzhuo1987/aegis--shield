@@ -49,10 +49,9 @@ if (!$_res_db){
 $SESSION = new ag_session($_session_time, $_session_gc_time, &$DB);
 $PAGE = new page();
 $UTILITY = new utility();
-$SETTING = new setting(&$DB);
-$settings_mail=serialize(array('url'=>$SETTING->get_value('url')));
-$MAILER = new mailer($settings_mail);
-//$GROUP = new group(&$DB);
+//$SETTING = new setting(&$DB);
+//$settings_mail=serialize(array('url'=>$SETTING->get_value('url')));
+//$MAILER = new mailer($settings_mail);
 $USER = new user(&$DB);
 $RULE = new rule(&$DB);
 $LANGUAGE = new language();
@@ -74,6 +73,7 @@ if ($_GET['action']=='logout'){
 list($_status, $_user_active) = $SESSION->auth_get_status();
 
 //Define mail settings
+/*
 if ($SETTING->get_value('send_mail_type')==EXTERNAL_STMP){
 	$MAILER->IsSMTP();
 	$MAILER->Host = $SETTING->get_value('mail_server');
@@ -83,4 +83,5 @@ if ($SETTING->get_value('send_mail_type')==EXTERNAL_STMP){
 		$MAILER->Password = $SETTING->get_value('mail_password');
 	}
 }
+*/
 ?>

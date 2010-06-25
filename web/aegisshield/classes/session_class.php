@@ -37,7 +37,9 @@ class ag_session{
 
 	//µÇÂ¼
 	function login($username, $passwd){
-		$row=$this->DB->GetRow("SELECT * FROM `".DB_PREFIX."users` WHERE `username`='".$username."' AND `passwd`='".md5($passwd)."' AND `account`=".ACTIVE."");
+		$sql = "SELECT * FROM `".DB_PREFIX."users` WHERE `username`='".$username."' AND `passwd`='".md5($passwd)."'"/* AND `account`=".ACTIVE.""*/;
+		//print($sql);
+		$row=$this->DB->GetRow($sql);
 		if (count($row)<1){
 			$row_failed=$this->DB->GetRow("SELECT `id` FROM `".DB_PREFIX."users` WHERE `username`='".$username."'");
 			if (count($row_failed)>=1){

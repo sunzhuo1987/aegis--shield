@@ -1,27 +1,16 @@
 <?php
-//Dizionario
-$admin[1]='Welcome';
+$admin[1]='欢迎';
 $admin[2]='Access interface';
 $admin[3]='Last login';
 $admin[4]='Home';
-$admin[5]='Add user';
-$admin[6]='User management';
-$admin[7]='Setting management';
-$admin[8]='Plugin management';
-$admin[9]='System info';
-$admin[10]='Logout';
+$admin[5]='添加用户';
+$admin[6]='用户管理';
+$admin[9]='系统信息';
+$admin[10]='注销';
 $admin[11]='Name';
 $admin[12]='Surname';
-$admin[13]='Country';
-$admin[14]='City';
-$admin[15]='District';
-$admin[16]='Post code';
-$admin[17]='Address';
-$admin[18]='Telephone';
-$admin[19]='Fax';
-$admin[20]='Mobile';
-$admin[21]='Username';
-$admin[22]='Password';
+$admin[21]='用户名';
+$admin[22]='密码';
 $admin[23]='Email';
 $admin[24]='Language';
 $admin[25]='Type';
@@ -80,10 +69,10 @@ $admin[77]='Are you sure to delete the group and all users included in it?';
 $admin[78]='Manage the group';
 $admin[79]='Manage the Iptables rules';
 $admin[80]='Delete the Iptables rules';
-$admin[81]='Login area';
-$admin[82]='Login';
-$admin[83]='Forgot your password?';
-$admin[83]='Recover the password';
+$admin[81]='用户登录';
+$admin[82]='登陆';
+$admin[83]='忘记密码?';
+$admin[83]='找回密码';
 $admin[84]='Password recovered; quickly you will receive a mail with the new password';
 $admin[85]='Password recovered';
 $admin[86]='The email doesn\'t exist in our database';
@@ -165,18 +154,16 @@ $admin[161]='Ulogd table';
 $admin[162]='Module to view personal log';
 $admin[163]='Log saved';
 
-//new start
-$admin[200]='The user is mandatory and must have at least 5 characters';
 //主页面index.php
-//$admin[200]='User Name';
-$admin[201]='Password';
-$admin[202]='Login';
+$admin[200]='用户名';
+$admin[201]='密码';
+$admin[202]='登录';
 
 //跳转
-$admin[220]='Login...';
+$admin[220]='登录中';
 
 //用户界面 
-$admin[230]='Welcome';
+$admin[230]='欢迎';
 $admin[231]='账户类型';
 $admin[232]='上次登录';
 

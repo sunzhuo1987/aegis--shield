@@ -107,8 +107,10 @@ class user {
 			return $GLOBALS['admin'][46].'<br />'.$GLOBALS['admin'][45];
 		}
 		
-		$this->DB->Execute("INSERT INTO `".DB_PREFIX."users` (`username`, `passwd`, `privilege`, `name`, `surname`, `email`,, `created`) VALUES ('".$user_array['username']."', '".md5($user_array['passwd'])."', '".$user_array['privilege']."', '".$user_array['name']."', '".$user_array['surname']."', '"."', '".$user_array['email']."', '"."', NOW())");
+		$sql = "INSERT INTO `".DB_PREFIX."users` (`username`, `passwd`, `privilege`, `name`, `surname`, `email`, `created`) VALUES ('".$user_array['username']."', '".md5($user_array['passwd'])."', '".$user_array['privilege']."', '".$user_array['name']."', '".$user_array['surname']."', '".$user_array['email']."', NOW())";
+		$this->DB->Execute($sql);
 		
+		print($sql);
 		return $GLOBALS['admin'][47];
 	}
 	
@@ -123,6 +125,7 @@ class user {
 	}
 	
 	//Send email with the new password
+	/*
 	function reset_password($email){
 		$id=$this->email_to_id($email);
 		if ($id>=0){
@@ -154,6 +157,7 @@ class user {
 		}
 		return $GLOBALS['admin'][86];
 	}
+	*/
 	
 	//Delete a user
 	function del_user($id){

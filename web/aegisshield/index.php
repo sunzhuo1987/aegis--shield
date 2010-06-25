@@ -14,7 +14,7 @@ else{
 	exit('NO Dictionary!');
 }
 
-if($_status == AUTH_NOT_LOGGED && $_POST['send']==$admin[82]){
+if($_status == AUTH_NOT_LOGGED && $_POST['send']=='Login'){
 	$uname = $_POST['username'];
 	$passw = $_POST['passwd'];
 	if($uname == "" || $passw == ""){
@@ -44,22 +44,15 @@ switch($_status){
 		exit();
 	break;
 }
-
-/*if($SETTING->get_value('public')==1 && $_GET['action']!='login'){
-	echo $PAGE->getHeader('public',$admin[41]);
-*/
 ?>
-
 <?	/*登录页面*/
 	echo $PAGE->getHeader('login',$admin[81]);
 	$link_logo='index.php';
 ?>
-
-
 <form method="post" action="">
   <table id="login">
 	<tr><td colspan="2" class="center"><?php echo $UTILITY->get_logo($link_logo); ?></td></tr>
-	<?php
+<?php
 
 	//如果登录错误，在这儿显示
 	if ($_status==AUTH_FAILED){
@@ -72,10 +65,9 @@ switch($_status){
     <tr>
       <td><?php echo $admin[22]; ?></td><td><input type="password" name="passwd" /></td>
     </tr>
-
-	<?php /*提交表单按钮*/?>
+<?php /*提交表单按钮*/?>
     <tr>
-      <td>&nbsp;</td><td><input type="submit" name="send" value="<?php echo $admin[82]; ?>" /></td>
+      <td>&nbsp;</td><td><input type="submit" name="send" value="<?php echo 'Login'; ?>" /></td>
     </tr>
 	<?php /*找回密码选项*/ ?>
     <tr>
@@ -83,7 +75,6 @@ switch($_status){
     </tr>
   </table>
 </form>
-
 <?php
 echo $PAGE->get_credits();
 echo $PAGE->getFooter();

@@ -31,7 +31,6 @@ echo $PAGE->getHeader('admin',$admin[39]);
 		<td id="menu">
 		<a href="admin.php"><?php echo $admin[4]; ?></a><br />
 		<br />
-		<a href="?action=add_user"><?php echo $admin[5]; ?></a><br />
 		<a href="?action=manage_user"><?php echo $admin[6]; ?></a><br />
 		<br />
 		<a href="?action=view_logs"><?php echo 'view logs'?></a><br />
@@ -47,9 +46,6 @@ echo $PAGE->getHeader('admin',$admin[39]);
 		<td id="navigation">
 		<?php
 			switch($_GET['action']){
-				case 'add_user':
-					include('interfaces/admin/add_user.php');
-				break;
 				case 'manage_user':
 					include('interfaces/admin/manage_user.php');
 				break;
@@ -62,7 +58,7 @@ echo $PAGE->getHeader('admin',$admin[39]);
 				break;
 				break;
 				case 'manage_rules':
-					include('interfaces/common/manage_rules.php');
+					include('interfaces/admin/manage_rules.php');
 				break;
 				case 'info_system':
 					include('interfaces/admin/info_system.php');

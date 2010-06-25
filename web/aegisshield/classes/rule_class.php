@@ -85,13 +85,26 @@ class rule {
 		return $rules;
 	}
 	
-	//Get option list
-	function option_list($id){
+	//Get option list int admin interface
+	function option_list_admin($id){
 		$id=(int)$id;
 		if ($this->exist_rule($id)){
 			$buffer='<a href="admin.php?action=manage_rules&amp;type=delete_rule&amp;id='.$id.
 			'"><img src="images/delete.png" alt="'."Delete the rule".'" title="'."Delete the rule".
 			'" /></a> <a href="admin.php?action=manage_rules&amp;type=change_rule&amp;id='.$id.
+			'"><img src="images/update.png" alt="'."Change the rule".'" title="'."Change the rule".'" /></a>';
+			return $buffer;
+		}
+		return 'User doesn\'t exist (option_list)';
+	}
+	
+	//Get option list in user interface
+	function option_list_user($id){
+		$id=(int)$id;
+		if ($this->exist_rule($id)){
+			$buffer='<a href="user.php?action=manage_rules&amp;type=delete_rule&amp;id='.$id.
+			'"><img src="images/delete.png" alt="'."Delete the rule".'" title="'."Delete the rule".
+			'" /></a> <a href="user.php?action=manage_rules&amp;type=change_rule&amp;id='.$id.
 			'"><img src="images/update.png" alt="'."Change the rule".'" title="'."Change the rule".'" /></a>';
 			return $buffer;
 		}

@@ -15,7 +15,7 @@ switch($_GET['type']){
 	 * Ìí¼Ó¹æÔò
 	 */
 	case 'add_rule':
-		require_once('interfaces/common/add_rule.php');
+		require_once('interfaces/admin/add_rule.php');
 ?>
 <table>
 </table>
@@ -41,7 +41,7 @@ switch($_GET['type']){
 <h5><?php echo /*$admin[68]*/'Are you sure to delete this rule?'; ?></h5>
 <form method="post" action="">
 <table id="delete_rule" class="default_table">
-<tr class="center"><td><input type="submit" name="send" value="<?php echo /*$admin[33]*/"Yes"; ?>" /></td><td><input type="submit" name="send" value="<?php echo $admin[34]; ?>" /></td>
+<tr class="center"><td><input type="submit" name="send" value="<?php echo /*$admin[33]*/"Yes"; ?>" /></td><td><input type="submit" name="send" value="<?php echo /*$admin[34]*/'No'; ?>" /></td>
 </tr></table>
 </form>
 
@@ -86,7 +86,7 @@ switch($_GET['type']){
 		$count++;
 		echo '<tr><td>##'.$count.
 		'</td><td>'.htmlspecialchars($rule_selected['rule']).
-		'</td><td>'.$RULE->option_list($rule_selected['id']).
+		'</td><td>'.$RULE->option_list_admin($rule_selected['id']).
 		'</td></tr>';
 	}
 ?>

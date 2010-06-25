@@ -52,7 +52,7 @@ echo $PAGE->getHeader('user',"User interface");
 				break;
 				break;
 				case 'manage_rules':
-					include('interfaces/common/manage_rules.php');
+					include('interfaces/user/manage_rules.php');
 				break;
 				default:
 					include('interfaces/common/general_info.php');
