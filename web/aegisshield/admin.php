@@ -8,8 +8,7 @@ if($_status != AUTH_LOGGED || $_user_active['privilege']!=ADMIN){
 }
 
 //Load dictionary
-//$language_file='lang/'.$_user_active['language'].'/dictionary.php';
-$language_file='lang/en/dictionary.php';
+$language_file='lang/ch/dictionary.php';
 if (file_exists($language_file)){
 	require_once($language_file);
 }
@@ -17,31 +16,32 @@ else{
 	exit('NO Dictionary!');
 }
 
-echo $PAGE->getHeader('admin',$admin[39]);
+echo $PAGE->getHeader('admin',$admin[233]);
 ?>
 
 <div id="container">
 	<table id="header"><tr>
 	<td class="left"><?php echo $UTILITY->get_logo('admin'); ?></td>
-	<td class="right"><h3><?php echo $admin[1].' '.$_user_active['name'].' '.$_user_active['surname']; ?></h3><?php echo $admin[2]; ?>: <?php echo $admin[116]; ?><br />
-    <?php echo $admin[3]; ?>: <?php echo $SESSION->last_log(); ?></td>
+	<td class="right"><h3><?php echo $admin[230].' '.$_user_active['name'].' '.$_user_active['surname']; ?></h3>
+	<?php echo $admin[231]; ?>: <?php echo $admin[235]; ?><br />
+    <?php echo $admin[232]; ?>: <?php echo $SESSION->last_log(); ?></td>
 	</tr></table>
 
 	<table id="central"><tr>
 		<td id="menu">
-		<a href="admin.php"><?php echo $admin[4]; ?></a><br />
+		<a href="admin.php"><?php echo $admin[250]; ?></a><br />
 		<br />
-		<a href="?action=manage_user"><?php echo $admin[6]; ?></a><br />
+		<a href="?action=manage_user"><?php echo $admin[251]; ?></a><br />
 		<br />
-		<a href="?action=view_logs"><?php echo 'view logs'?></a><br />
-		<a href="?action=view_proto"><?php echo 'view proto'?></a><br />
+		<a href="?action=view_logs"><?php echo $admin[252];?></a><br />
+		<a href="?action=view_proto"><?php echo $admin[253];?></a><br />
 		<br />
 
-		<a href="?action=manage_rules"><?php echo 'rules management'; ?></a><br />
+		<a href="?action=manage_rules"><?php echo $admin[254]; ?></a><br />
 		<br />
-		<a href="?action=info_system"><?php echo $admin[9]; ?></a><br />
+		<a href="?action=info_system"><?php echo $admin[255]; ?></a><br />
 		<br />
-		<a href="?action=logout"><?php echo $admin[10];?></a>
+		<a href="?action=logout"><?php echo $admin[256];?></a>
 		</td>
 		<td id="navigation">
 		<?php

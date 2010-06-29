@@ -3,13 +3,9 @@
 	 * id | type  | rule | proto
 	 */
 ?>
-
-
-<h4><?php echo "RULES MANAGEMETN"; ?></h4>
-
+<h4><?php echo $admin[254]; ?></h4>
 <?php 
 	
-
 switch($_GET['type']){
 	/*
 	 * 添加规则
@@ -26,11 +22,11 @@ switch($_GET['type']){
 	 * 删除规则
 	 */
 	case 'delete_rule':
-		if ($_POST['send']==/*$admin[33]*/"Yes"){
+		if ($_POST['send']==$admin[475]){
 			echo '<div class="submit_form">'.$RULE->del_rule($_GET['id']).'</div>';
 		}
-		elseif($_POST['send']==/*$admin[34]*/"No"){
-			echo '<div class="submit_form">'.'Not Deleted!'.'</div>';
+		elseif($_POST['send']==$admin[476]){
+			echo '<div class="submit_form">'.$admin[478].'</div>';
 		}
 		else{
 	/*
@@ -38,10 +34,10 @@ switch($_GET['type']){
 	 */
 ?>
 
-<h5><?php echo /*$admin[68]*/'Are you sure to delete this rule?'; ?></h5>
+<h5><?php echo $admin[474]; ?></h5>
 <form method="post" action="">
 <table id="delete_rule" class="default_table">
-<tr class="center"><td><input type="submit" name="send" value="<?php echo /*$admin[33]*/"Yes"; ?>" /></td><td><input type="submit" name="send" value="<?php echo /*$admin[34]*/'No'; ?>" /></td>
+<tr class="center"><td><input type="submit" name="send" value="<?php echo $admin[475]; ?>" /></td><td><input type="submit" name="send" value="<?php echo $admin[476]; ?>" /></td>
 </tr></table>
 </form>
 
@@ -55,11 +51,11 @@ switch($_GET['type']){
 		else{
 ?>
 
-<h5><?php echo 'Change Rule'; ?></h5>
+<h5><?php echo $admin[472]; ?></h5>
 <form method="post" action="">
 <table id="change_rule" class="default_table">
 <tr class="center"><td><input type="text" name="rule" value="" /></td></tr>
-<tr class="center"><td><input type="submit" name="send" value="<?php echo 'Update'; ?>" /></td>
+<tr class="center"><td><input type="submit" name="send" value="<?php echo $admin[479]; ?>" /></td>
 </tr>
 </table>
 </form>
@@ -75,7 +71,7 @@ switch($_GET['type']){
 <table id="manage_rule" class="default_table">
   <tr>
 	<th>&nbsp;</th>
-    <th><?php echo 'Rules'; ?></th>
+    <th><?php echo $admin[470]; ?></th>
   
   </tr>
 <?php

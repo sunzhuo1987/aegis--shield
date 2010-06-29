@@ -1,5 +1,5 @@
 <?php
-  require_once('interfaces/common/state_common.php');
+  //require_once('interfaces/common/state_common.php');
   require_once('interfaces/common/output_html.php');
 
   /*

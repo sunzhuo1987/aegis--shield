@@ -335,7 +335,7 @@ class user {
 		$id=(int)$id;
 		if ($this->exist_user($id)){
 			$buffer='';
-			$buffer.='<tr><th>'.$GLOBALS['admin'][114].'</th><th>'.$GLOBALS['admin'][74].'</th><th>'.$GLOBALS['admin'][115].'</th></tr>';
+			$buffer.='<tr><th>'.$GLOBALS['admin'][380].'</th><th>'.$GLOBALS['admin'][381].'</th><th>'.$GLOBALS['admin'][382].'</th></tr>';
 			
 			$rs=$this->DB->Execute("SELECT * FROM `".DB_PREFIX."ip_history` WHERE `user_id`='$id' ORDER BY `date` DESC");
 			$log_array=array();

@@ -1,7 +1,3 @@
-<?php 
-	//require_once('includes/config.php');
-?>
-<br />
 <table>
 <tr><td>
 <?php 
@@ -19,17 +15,17 @@
 	$udpDstP = $ALERTS->uniqueUdpDstPortCnt();
 	
 	
-	echo 'Sensors:'.$sensorCnt.'<br />';
-	echo 'Unique Alerts:'.$uniqueAlerts.'<br />';
-	echo 'Total Number of Alerts:'.$eventCnt.'<br />';
+	echo $admin[270].':'.$sensorCnt.'<br />';
+	echo $admin[271].':'.$uniqueAlerts.'<br />';
+	echo $admin[272].':'.$eventCnt.'<br />';
 	echo '<br />';
-	echo '  Source IP address:'.$ipSrcCnt.'<br />';
-	echo '  Dest IP address:'.$ipDstCnt.'<br />';
-	echo '  Unique IP links:'.$linkCnt.'<br />';
+	echo '  '.$admin[273].':'.$ipSrcCnt.'<br />';
+	echo '  '.$admin[274].':'.$ipDstCnt.'<br />';
+	echo '  '.$admin[275].':'.$linkCnt.'<br />';
 	echo '<br />';
-	echo '  Source Ports:'.$srcP.'<br />';
+	echo '  '.$admin[276].':'.$srcP.'<br />';
 	echo '    .TCP('.$tcpSrcP.') UDP('.$udpSrcP.')'.'<br />';
-	echo '  Dest Ports:'.$dstP.'<br />';
+	echo '  '.$admin[279].':'.$dstP.'<br />';
 	echo '    .TCP('.$tcpDstP.') UDP('.$udpDstP.')'.'<br />';
 	
 ?>

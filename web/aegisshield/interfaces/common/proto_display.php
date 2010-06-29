@@ -1,6 +1,6 @@
 <br />
 <?php 
-	echo "proto infomation";
+	echo $admin[450];
 ?>
 <table>
 <tr>
@@ -10,7 +10,7 @@
 	$cnt = $APPROTO->getProtoDataSet($xdata);
 	
 	if($cnt == 0){
-		echo "No data";
+		echo $admin[451];
 	}else
 		echo "<img src=\"interfaces/common/proto_display_pie.php\" />";
 ?>

@@ -12,7 +12,7 @@ class page{
 <head>
 <meta name="description" content="Aegisshield - Network traffic analysis and detection!" />
 <meta name="author" content="[aegisshield]" />
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312" />
 <meta name="author" content="[aegisshield]" />
 <meta name="copyright" content="Copyright (c) 2009-2010	aegisshield" />
 <meta name="generator" content="aegisshield - http://code.google.com/p/aegis--shield/" />
