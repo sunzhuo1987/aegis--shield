@@ -36,8 +36,6 @@ echo $PAGE->getHeader('user',$admin[234]);
 		<a href="?action=view_proto"><?php echo $admin[253];?></a><br />
 		<br />
 
-		<a href="?action=manage_rules"><?php echo $admin[254]; ?></a><br />
-		<br />
 		<a href="?action=logout"><?php echo $admin[256];?></a>
 		</td>
 		<td id="navigation">
@@ -49,10 +47,6 @@ echo $PAGE->getHeader('user',$admin[234]);
 				
 				case 'view_proto':
 					include('interfaces/common/view_proto.php');	
-				break;
-				break;
-				case 'manage_rules':
-					include('interfaces/user/manage_rules.php');
 				break;
 				default:
 					include('interfaces/common/general_info.php');

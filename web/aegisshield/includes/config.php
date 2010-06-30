@@ -2,20 +2,18 @@
 //Include files
 require_once('includes/connection_settings.php');
 require_once('includes/session_settings.php');
-require_once('includes/path_settings.php');
 require_once('includes/jpgraph_settings.php');
 
 //Class files
 require_once('classes/adodb/adodb.inc.php');
 require_once('classes/session_class.php');
 require_once('classes/page_class.php');
-require_once('classes/mailer_class.php');
 require_once('classes/utility_class.php');
 //require_once('classes/group_class.php');
 require_once('classes/user_class.php');
 require_once('classes/rule_class.php');
 require_once('classes/language_class.php');
-require_once('classes/setting_class.php');
+//require_once('classes/setting_class.php');
 require_once('classes/alerts_class.php');
 require_once('classes/system_info_class.php');
 require_once('classes/graph_data_class.php');
@@ -50,9 +48,6 @@ if (!$_res_db){
 $SESSION = new ag_session($_session_time, $_session_gc_time, &$DB);
 $PAGE = new page();
 $UTILITY = new utility();
-//$SETTING = new setting(&$DB);
-//$settings_mail=serialize(array('url'=>$SETTING->get_value('url')));
-//$MAILER = new mailer($settings_mail);
 $USER = new user(&$DB);
 $RULE = new rule(&$DB);
 $LANGUAGE = new language();
@@ -74,16 +69,4 @@ if ($_GET['action']=='logout'){
 //Check if session is active
 list($_status, $_user_active) = $SESSION->auth_get_status();
 
-//Define mail settings
-/*
-if ($SETTING->get_value('send_mail_type')==EXTERNAL_STMP){
-	$MAILER->IsSMTP();
-	$MAILER->Host = $SETTING->get_value('mail_server');
-	if($SETTING->get_value('mail_auth')){
-		$MAILER->SMTPAuth = true;
-		$MAILER->Username = $SETTING->get_value('mail_username');
-		$MAILER->Password = $SETTING->get_value('mail_password');
-	}
-}
-*/
 ?>

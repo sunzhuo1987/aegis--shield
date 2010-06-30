@@ -1,5 +1,4 @@
 <?php
-//Dizionario
 $admin[1]='Welcome';
 $admin[2]='Access interface';
 $admin[3]='Last login';
