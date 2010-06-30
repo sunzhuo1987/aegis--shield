@@ -25,7 +25,7 @@ class rule {
 	//Add a new rule
 	function add_rule($rule_array){
 		if ($rule_array['type']=='' || $rule_array['rule']==''){
-			return "add rule failed";
+			return $GLOBALS['admin'][487];
 		}
 		
 		if($rule_array['proto']=='')
@@ -36,7 +36,7 @@ class rule {
 			
 		$this->DB->Execute($sql);
 		
-		return $GLOBALS['admin'][47];
+		return $GLOBALS['admin'][486];
 	}
 	
 	//Change rule
@@ -56,7 +56,7 @@ class rule {
 		$id=(int)$id;
 		if ($this->exist_rule($id)){
 			$this->DB->Execute("DELETE FROM custom_rule WHERE `id`='$id'");
-			return 'Deleted';
+			return $GLOBALS['admin'][477];
 		}
 		else{
 			return 'User doesn\'t exist (del_rule)';

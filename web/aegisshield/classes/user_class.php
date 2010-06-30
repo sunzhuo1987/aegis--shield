@@ -110,8 +110,7 @@ class user {
 		$sql = "INSERT INTO `".DB_PREFIX."users` (`username`, `passwd`, `privilege`, `name`, `surname`, `email`, `created`) VALUES ('".$user_array['username']."', '".md5($user_array['passwd'])."', '".$user_array['privilege']."', '".$user_array['name']."', '".$user_array['surname']."', '".$user_array['email']."', NOW())";
 		$this->DB->Execute($sql);
 		
-		print($sql);
-		return $GLOBALS['admin'][47];
+		return $GLOBALS['admin'][329];
 	}
 	
 	//Change user password
@@ -121,7 +120,7 @@ class user {
 			$this->DB->Execute("UPDATE `".DB_PREFIX."users` SET `passwd`='".md5($password)."' WHERE `id`='$id'");
 			return $GLOBALS['admin'][70];
 		}
-		return $GLOBALS['admin'][71];
+		return $GLOBALS['admin'][352];
 	}
 	
 	//Send email with the new password
@@ -166,7 +165,7 @@ class user {
 			$this->DB->Execute("DELETE FROM `".DB_PREFIX."users` WHERE `id`='$id'");
 			$this->DB->Execute("DELETE FROM `".DB_PREFIX."ip_history` WHERE `user_id`='$id'");
 			$this->DB->Execute("DELETE FROM `".DB_PREFIX."sessions` WHERE `user_id`='$id'");
-			return $BLOBALS['admin'][100];
+			return $BLOBALS['admin'][344];
 		}
 		else{
 			return 'User doesn\'t exist (del_user)';

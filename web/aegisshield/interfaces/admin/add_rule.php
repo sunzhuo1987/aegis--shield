@@ -2,7 +2,6 @@
 if ($_POST['send']==$admin[483]){
 		$rule_array=array('rule'=>$_POST['rule'], 'type'=>$_POST['type'], 'proto'=>$_POST['proto']);
 		
-		print_r($rule_array);
 		echo '<div class="submit_form">'.$RULE->add_rule($rule_array).'</div>';
 }
 else{

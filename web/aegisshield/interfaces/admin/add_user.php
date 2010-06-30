@@ -23,7 +23,7 @@ else{
     <td><input type="text" name="username" /></td>
   </tr>
   <tr>
-    <td><?php echo $admin[340]; ?> * </td>
+    <td><?php echo $admin[328]; ?> * </td>
     <td><input type="text" name="passwd" /></td>
   </tr>
   <tr>
