@@ -682,11 +682,55 @@ void as2_get_affinity_cpus(int node,int* start,int* end)
 	{
 	 *start = 2;
 	 *end = 4;
+	}
+	else
+	{
+	 *start = _GET_START(node); 
+	 *end = *start + cpu_num / 4 + 1	 
 	}		
 	break;
 	case 2:
+	if(cpu_num=2)
+	{
 	 *start = 1;
 	 *end = 1;
+	}
+	else if(cpu_num=3)
+	{
+	 *start = 3;
+	 *end = 3;
+	}
+	else if(cpu_num=4)
+	{
+	 *start = 3;
+	 *end = 4;
+	}
+	else
+	{
+	 *start = _GET_START(node); 
+	 *end = *start + cpu_num / 4 + 1	 
+	}		
+	case 3:
+	if(cpu_num=2)
+	{
+	 *start = 1;
+	 *end = 1;
+	}
+	else if(cpu_num=3)
+	{
+	 *start = 1;
+	 *end = 1;
+	}
+	else if(cpu_num=4)
+	{
+	 *start = 1;
+	 *end = 1;
+	}
+	else
+	{
+	 *start = _GET_START(node); 
+	 *end = *start + cpu_num / 4 
+	}	
 	break;
   }
 }
@@ -785,10 +829,10 @@ int Detect(Packet * p)
  }
 #pragma omp section 
  {
- 	as2_set_affinity(1);
-    PREPROC_PROFILE_START(detectPerfStats);
+ 	  as2_set_affinity(1);
+    //PREPROC_PROFILE_START(detectPerfStats);
     detected = fpEvalPacket(p);
-    PREPROC_PROFILE_END(detectPerfStats);
+    //PREPROC_PROFILE_END(detectPerfStats);
  }
 }
     return detected;
